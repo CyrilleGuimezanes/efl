@@ -1,0 +1,48 @@
+<script id="widgetTemplate" type="text/template">
+<div class="widget-container">
+  <div class="top-bar">
+      <div class="title"><img src="<%= logoUrl %>" alt=""> <%= title %></div>
+      <div class="actions">
+        <div class="show">
+          <% if (hidden) { %>
+            <span class="collapse-btn">show</span>
+          <% } %>
+          <% if (!hidden) { %>
+            <span class="collapse-btn">hide</span>
+          <% } %>
+        </div>
+        <div class="sort">
+          <span class="sort-date <% if (sort == 'date') { %>selected<% } %>">date</span>
+          |
+          <span class="sort-revelance <% if (sort == 'revelance') { %>selected<% } %>">revelance</span>
+        </div>
+        <div class="filter">
+          <span class="filter-com <% if (filter == 'none') { %>selected<% } %>" data-filter="none">Tous</span>
+          |
+          <span class="filter-immo <% if (filter == 'immo') { %>selected<% } %>" data-filter="immo">IMMO</span>
+          |
+          <span class="filter-bic <% if (filter == 'bic') { %>selected<% } %>" data-filter="bic">BIC</span>
+        </div>
+      </div>
+
+  </div>
+  <div class="content <% if (hidden) { %>collapsed<% } %>">
+    <div class="toolbar"></div>
+    <div class="results">
+    </div>
+  </div>
+</div>
+</script>
+
+
+
+<script id="resultTemplate" type="text/template">
+	<div class="result">
+		<div class="title"><a target="_blank" href="<%= url %>"><%= title %></a></div>
+		<div class="description"><%= brief %></div>
+		<div class="metadata">
+			<div class="left"><span class="source"><%= source %></span> - <span class="serie"><%= serie %></span></div>
+			<div class="right date"><%= fdate %></div>
+		</div>
+	</div>
+</script>

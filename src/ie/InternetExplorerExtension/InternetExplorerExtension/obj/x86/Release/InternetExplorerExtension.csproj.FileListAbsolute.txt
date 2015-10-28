@@ -1,0 +1,7 @@
+E:\Workspace\Freelance\ELS\src\IE\InternetExplorerExtension\InternetExplorerExtension\bin\x86\Release\InternetExplorerExtension.dll
+E:\Workspace\Freelance\ELS\src\IE\InternetExplorerExtension\InternetExplorerExtension\bin\x86\Release\InternetExplorerExtension.pdb
+E:\Workspace\Freelance\ELS\src\IE\InternetExplorerExtension\InternetExplorerExtension\obj\x86\Release\Interop.SHDocVw.dll
+E:\Workspace\Freelance\ELS\src\IE\InternetExplorerExtension\InternetExplorerExtension\obj\x86\Release\InternetExplorerExtension.csproj.ResolveComReference.cache
+E:\Workspace\Freelance\ELS\src\IE\InternetExplorerExtension\InternetExplorerExtension\obj\x86\Release\InternetExplorerExtension.dll
+E:\Workspace\Freelance\ELS\src\IE\InternetExplorerExtension\InternetExplorerExtension\obj\x86\Release\InternetExplorerExtension.pdb
+E:\Workspace\Freelance\ELS\src\IE\InternetExplorerExtension\InternetExplorerExtension\obj\x86\Release\InternetExplorerExtension.csprojResolveAssemblyReference.cache

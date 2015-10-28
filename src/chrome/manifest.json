@@ -1,0 +1,33 @@
+{
+  "manifest_version": 2,
+
+  "name": "ELS Google Connect",
+  "description": "Retrieve some references from ELS databases",
+  "version": "1.0",
+  "default_locale": "en",
+  "content_scripts": [
+    {
+      "matches": ["http://www.google.fr/*","https://www.google.fr/*"],
+      "js": ["scripts/underscore.js", "scripts/jquery.js", "scripts/backbone.js", "scripts/main.js"],
+      "css": ["styles/app.css"],
+      "run_at": "document_end"
+    }
+  ],
+  "browser_action": {
+    "default_icon": "images/icon-128.png",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "https://test-connexion.dalloz.fr/*",
+    "http://int.abonnes.efl.fr/*"
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self' ",
+  "web_accessible_resources": [
+    "views/*.html",
+    "mock/*.html",
+    "images/*.png",
+    "images/*.jpg"
+  ]
+}

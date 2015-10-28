@@ -1,0 +1,23 @@
+<div class="widget-container" ng-controller="RootController">
+  <div class="top-bar" ng-click="toggleCollapse()">
+      <div class="title"><img ng-src="{{logo}}" alt="">{{widgetTitle}}</div>
+      <div class="actions">
+          <div class="collapse-btn" ng-if="collapse">Show</div>
+          <div class="collapse-btn" ng-if="!collapse">Hide</div>
+      </div>
+  </div>
+  <div class="content" ng-show="!collapse">
+    <div class="toolbar"></div>
+    <div class="results">
+      <div class="result" ng-repeat="item in items">
+        <div class="title"><a target="_blank" href="{{item.url}}" ng-bind-html="item.title"></a></div>
+        <div class="description" ng-bind-html="item.brief"></div>
+        <div class="metadata">
+          <div class="left"><span class="source">{{item.source}}</span> - <span class="serie">{{item.serie}}</span></div>
+          <div class="right date">{{item.fdate}}</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
