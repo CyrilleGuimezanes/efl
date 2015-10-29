@@ -75,7 +75,7 @@ var WidgetView = Backbone.View.extend({
   initialize: function() {
   },
   events: {
-    "click .collapse-btn":          "toggleOpen",
+    "click .collapse-btn":     "toggleOpen",
     "click .sort-date":        "sortByDate",
     "click .sort-revelance":   "sortByRevelance",
     "click .filter>span":      "filterBycategory"
@@ -123,7 +123,7 @@ var getRandomNumber = function(min, max){
 }
 var getResults = function(term, callback){
 	$.ajax({
-			url: getUrl("mock/page.html?q="+term),
+			url: "http://abonnes.efl.fr/EFL2/app/connect/searchResults?searchTerms="+term+"&CONNECT=9e819f0d668d7b3288a83c54f2fca803&matiere"/*getUrl("mock/page.html?q="+term)*/,
 			method: 'GET'
 	}).success(function( data ) {
 			var noNewLine = data.replace(/\r?\n|\r/g, '');
@@ -168,4 +168,6 @@ $(function() {
 		})
 
 	}));
+
+
 });
