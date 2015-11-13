@@ -1,21 +1,24 @@
 {
   "manifest_version": 2,
 
-  "name": "ELS Google Connect",
+  "name": "ELSConnect",
   "description": "Retrieve some references from ELS databases",
   "version": "1.0",
   "default_locale": "en",
   "content_scripts": [
     {
-      "matches": ["http://www.google.fr/*","https://www.google.fr/*"],
-      "js": ["scripts/underscore.js", "scripts/jquery.js", "scripts/backbone.js", "scripts/main.js"],
-      "css": ["styles/app.css"],
+      "matches": ["*://*.search.yahoo.com/*","*://www.google.fr/*","*://www.bing.com/*","*://www.google.com/*"],
+      "js": ["scripts/underscore.js", "scripts/jquery.js","scripts/sha256.js","scripts/iscroll.js", "scripts/backbone.js","scripts/utils.js", "scripts/main.js"],
+      "css": ["styles/css/app.css"],
       "run_at": "document_end"
     }
   ],
+  "background": {
+    "scripts": ["scripts/eventpage.js"],
+    "persistent": false
+  },
   "browser_action": {
-    "default_icon": "images/icon-128.png",
-    "default_popup": "popup.html"
+    "default_icon": "images/icon-128.png"
   },
   "permissions": [
     "tabs",
@@ -28,6 +31,7 @@
     "views/*.html",
     "mock/*.html",
     "images/*.png",
+    "images/*.gif",
     "images/*.jpg"
   ]
 }

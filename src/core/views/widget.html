@@ -1,35 +1,72 @@
 <script id="widgetTemplate" type="text/template">
 <div class="widget-container">
+  <!--<iframe src="https://test-connexion.dalloz.fr/" width="562" height="524"></iframe>-->
   <div class="top-bar">
-      <div class="title"><img src="<%= logoUrl %>" alt=""> <%= title %></div>
-      <div class="actions">
-        <div class="show">
-          <% if (hidden) { %>
-            <span class="collapse-btn">show</span>
-          <% } %>
-          <% if (!hidden) { %>
-            <span class="collapse-btn">hide</span>
-          <% } %>
+      <div class="title">
+        <span class="helper"></span>
+        <img src="<%= logoUrl %>" alt="">
+        <%= title %>
+      </div>
+      <% if (!error.logged && !error.https) { %>
+        <div class="actions">
+          <div class="show">
+              <span class="collapse-btn <% if (compress == 1) { %>selected<% } %>" data-compress="1">partiel</span>
+
+              <span class="collapse-btn <% if (compress == 2) { %>selected<% } %>" data-compress="2">complet</span>
+
+
+              <span class="collapse-btn <% if (compress == 0) { %>selected<% } %>" data-compress="0">cacher</span>
+
+          </div>
+
         </div>
+      <% } %>
+  </div>
+  <div class="content <% if (compress == 0 && !error.logged && !error.https) { %>collapsed<% } %>">
+    <% if (error.logged) { %>
+      <!--<div class="login-container">
+        <div class="connect-label">Veuillez vous connecter au service pour voir les résultats</div>
+        <form class="login-form">
+          <div class="form-group">
+            <label for="ident">Identifiant</label><input type="text" id="ident" name="ident" value="">
+          </div>
+          <div class="form-group">
+            <label for="password">Mot de passe</label><input type="password" name="password" id="password" value="">
+          </div>
+          <div class="form-group submit">
+            <input type="button" name="name" value="Connexion" class="send-connect">
+          </div>
+
+        </form>
+      </div>-->
+      <span class="error-label">Vous devez vous connecter au service</span>
+
+    <% } %>
+    <% if (error.https) { %>
+      <span class="error-label">Le chargement est anormalement long, si un bouclier apparait dans votre barre de recherche, cliquez dessus pour autoriser la recherche de résultats</span>
+    <% } %>
+    <% if (!error.logged && !error.https) { %>
+      <div class="toolbar">
         <div class="sort">
           <span class="sort-date <% if (sort == 'date') { %>selected<% } %>">date</span>
           |
-          <span class="sort-revelance <% if (sort == 'revelance') { %>selected<% } %>">revelance</span>
+          <span class="sort-revelance <% if (sort == 'revelance') { %>selected<% } %>">pertinence</span>
         </div>
-        <div class="filter">
-          <span class="filter-com <% if (filter == 'none') { %>selected<% } %>" data-filter="none">Tous</span>
-          |
-          <span class="filter-immo <% if (filter == 'immo') { %>selected<% } %>" data-filter="immo">IMMO</span>
-          |
-          <span class="filter-bic <% if (filter == 'bic') { %>selected<% } %>" data-filter="bic">BIC</span>
+
+      </div>
+      <% if (filterBy) { %>
+      <div class="filter-reset">
+        < retour
+      </div>
+      <% } %>
+      <div class="filters"></div>
+      <div class="loader"><img src="<%= loaderUrl %>" alt=""></div>
+      <div id="wrapper">
+        <div id="scroller" class="results">
         </div>
       </div>
 
-  </div>
-  <div class="content <% if (hidden) { %>collapsed<% } %>">
-    <div class="toolbar"></div>
-    <div class="results">
-    </div>
+    <% } %>
   </div>
 </div>
 </script>
@@ -38,11 +75,20 @@
 
 <script id="resultTemplate" type="text/template">
 	<div class="result">
-		<div class="title"><a target="_blank" href="<%= url %>"><%= title %></a></div>
-		<div class="description"><%= brief %></div>
+		<div class="title"><a target="_blank" href="<%= item.url %>"><%= item.title %></a></div>
+    <% if (parent.compress == 2) { %>
+      <div class="description"><%= item.brief %></div>
+    <% } %>
 		<div class="metadata">
-			<div class="left"><span class="source"><%= source %></span> - <span class="serie"><%= serie %></span></div>
-			<div class="right date"><%= fdate %></div>
+			<div class="left"><span class="source"><%= item.source %></span> - <span class="serie"><%= item.serie %></span></div>
+			<div class="right date"><%= item.fdate %></div>
 		</div>
+	</div>
+</script>
+
+
+<script id="filterTemplate" type="text/template">
+	<div class="sub">
+		<div class="filter-name name" id="<%= fid %>" data-name="<%= attr %>" data-parent="<%= parent %>"><%= item.name %> (<%= item.nb %>)</div>
 	</div>
 </script>

@@ -1,7 +1,6 @@
 {
-  "name": "dallozsearch",
-  "private": true,
-  "version": "0.0.0",
-  "dependencies": {},
-  "devDependencies": {}
+    "name": "dallozsearch",
+    "version": "0.1.0",
+    "dependencies": {}
 }
+

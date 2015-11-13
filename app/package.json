@@ -1,0 +1,9 @@
+{
+    "name": "dallozsearch",
+    "id": "extensionname@example.org",
+    "title": "dallozsearch",
+    "description": "My Firefox Extension",
+    "author": "Cyrille Guimezanes",
+    "license": "MPL 2.0",
+    "version": "0.1.0"
+}

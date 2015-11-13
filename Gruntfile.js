@@ -96,7 +96,7 @@ module.exports = function (grunt) {
           'cd <%= config.firefox.dist %>',
           'jpm xpi',
           'cd ../..',
-          'mv -f <%= config.firefox.dist %>\@<%= config.name %>-<%= config.version %>.xpi <%= config.bin %><%= config.name %>-<%= config.version %>.xpi'
+          'mv -f <%= config.firefox.dist %>\@<%= config.name %>-<%= config.version %>.xpi <%= config.bin %>firefox.xpi'
         ].join(' && ')
       },
       safari: {
@@ -108,11 +108,11 @@ module.exports = function (grunt) {
     crx: {
       build: {
         "src": [
-          "<%= config.chrome.dist %>{,*/}*",
+          "<%= config.chrome.dist %>**/*",
           "!.{git,svn}",
           "!*.pem"
         ],
-        "dest": "<%= config.bin %><%= config.name %>-<%= config.version %>.crx",
+        "dest": "<%= config.bin %>chrome.crx",
         "options": {
           "privateKey": "<%= config.chrome.src %>cert.pem",
           "maxBuffer": 5000 * 1024 //build extension with a weight up to 5MB
@@ -238,7 +238,8 @@ module.exports = function (grunt) {
           src: [
             '_locales/{,*/}*.json',
             'manifest.json',
-            '*.html'
+            '*.html',
+            'scripts/*.js'
           ]
         }]
       },
