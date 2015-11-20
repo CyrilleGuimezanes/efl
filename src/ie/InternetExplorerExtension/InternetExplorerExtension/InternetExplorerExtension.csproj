@@ -7,8 +7,8 @@
     <ProjectGuid>{3B7DFD6E-D8A5-4BEE-AD3C-72BA6CADF942}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DallozSearch</RootNamespace>
-    <AssemblyName>DallozSearch</AssemblyName>
+    <RootNamespace>ELSConnect</RootNamespace>
+    <AssemblyName>ELSConnect</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -76,7 +76,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>DallozSearchForEFLEditionInternetExlorerExtension.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>ELSConnectInternetExlorerExtension.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
@@ -112,7 +112,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="DallozSearchForEFLEditionInternetExlorerExtension.snk" />
+    <None Include="ELSConnectInternetExlorerExtension.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -1,21 +1,24 @@
 <script id="widgetTemplate" type="text/template">
 <div class="widget-container">
-  <!--<iframe src="https://test-connexion.dalloz.fr/" width="562" height="524"></iframe>-->
   <div class="top-bar">
       <div class="title">
         <span class="helper"></span>
-        <img src="<%= logoUrl %>" alt="">
+        <img src="<%= baseUrl %>images/icon-38.png" alt="">
         <%= title %>
       </div>
       <% if (!error.logged && !error.https) { %>
         <div class="actions">
           <div class="show">
-              <span class="collapse-btn <% if (compress == 1) { %>selected<% } %>" data-compress="1">partiel</span>
+            <% if (compress == 1) { %>
+              <div class="collapse-btn" data-compress="0"><img src="<%= baseUrl %>images/close.png" alt=""></div>
+            <% } %>
+            <!--<% if (compress == 2) { %>
+              <span class="collapse-btn" data-compress="2">complet</span>
+            <% } %>-->
 
-              <span class="collapse-btn <% if (compress == 2) { %>selected<% } %>" data-compress="2">complet</span>
-
-
-              <span class="collapse-btn <% if (compress == 0) { %>selected<% } %>" data-compress="0">cacher</span>
+            <% if (compress == 0) {  %>
+              <div class="collapse-btn" data-compress="1"><img src="<%= baseUrl %>images/open.png" alt=""></div>
+            <% } %>
 
           </div>
 
@@ -47,25 +50,45 @@
     <% } %>
     <% if (!error.logged && !error.https) { %>
       <div class="toolbar">
+        <div class="result-label">
+           Liste des résultats ELS
+        </div>
         <div class="sort">
-          <span class="sort-date <% if (sort == 'date') { %>selected<% } %>">date</span>
+          <span>Tri par </span>
+          <span class="sort-btn sort-date <% if (sort == 'date') { %>selected<% } %>">date</span>
           |
-          <span class="sort-revelance <% if (sort == 'revelance') { %>selected<% } %>">pertinence</span>
+          <span class="sort-btn sort-revelance <% if (sort == 'revelance') { %>selected<% } %>">pertinence</span>
         </div>
 
       </div>
-      <% if (filterBy) { %>
+    <!--  <% if (filterBy) { %>
       <div class="filter-reset">
         < retour
       </div>
-      <% } %>
-      <div class="filters"></div>
-      <div class="loader"><img src="<%= loaderUrl %>" alt=""></div>
+      <% } %>-->
+      <div class="btn left-btn"> < </div>
+      <div class="filters-container">
+
+        <div class="filters-wrapper">
+          <div class="filters filters-scroller"></div>
+        </div>
+
+
+      </div>
+      <div class="btn right-btn"> > </div>
+      <div class="loader"><img src="<%= baseUrl %>images/loader.gif" alt=""></div>
       <div id="wrapper">
         <div id="scroller" class="results">
-        </div>
-      </div>
 
+        </div>
+
+      </div>
+      <% if (fullResultUrl.length) { %>
+        <div class="more-results">
+          <a target="_blank" href="<%= fullResultUrl %>">Plus de résultats > </a>
+        </div>
+
+      <% } %>
     <% } %>
   </div>
 </div>
@@ -76,9 +99,9 @@
 <script id="resultTemplate" type="text/template">
 	<div class="result">
 		<div class="title"><a target="_blank" href="<%= item.url %>"><%= item.title %></a></div>
-    <% if (parent.compress == 2) { %>
+
       <div class="description"><%= item.brief %></div>
-    <% } %>
+    <% if (parent.compress == 2) { %><% } %>
 		<div class="metadata">
 			<div class="left"><span class="source"><%= item.source %></span> - <span class="serie"><%= item.serie %></span></div>
 			<div class="right date"><%= item.fdate %></div>
@@ -88,7 +111,5 @@
 
 
 <script id="filterTemplate" type="text/template">
-	<div class="sub">
-		<div class="filter-name name" id="<%= fid %>" data-name="<%= attr %>" data-parent="<%= parent %>"><%= item.name %> (<%= item.nb %>)</div>
-	</div>
+		<li class="filter-name name" id="<%= fid %>" data-name="<%= attr %>" data-parent="<%= parent %>"><%= item.name %> (<%= item.nb %>)<!-- volontairement non fermé pour insérer les sous filtres-->
 </script>

@@ -7,9 +7,9 @@
 	<key>Builder Version</key>
 	<string>9537.77.4</string>
 	<key>CFBundleDisplayName</key>
-    <string>DallozSearch</string>
+    <string>ELSConnect</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.els.dalloz.search</string>
+	<string>com.els.connect</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
@@ -27,7 +27,7 @@
 		<dict/>
 	</dict>
     <key>Description</key>
-    <string>Retrieve a list of Dalloz search result on Google/Yahoo/Bing</string>
+    <string>Retrieve a list of ELS search result on Google/Yahoo/Bing</string>
 	<key>ExtensionInfoDictionaryVersion</key>
 	<string>1.0</string>
 	<key>Permissions</key>

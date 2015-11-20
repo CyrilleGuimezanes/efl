@@ -19,16 +19,24 @@ module.exports = function (grunt) {
   var config = {
     app: "./",
     name: grunt.file.readJSON('package.json').name,
+    id: grunt.file.readJSON('package.json').id,
     version: grunt.file.readJSON('package.json').version,
+    description: grunt.file.readJSON('package.json').description,
+    src: "src/",
     core: "src/core/",
     bin: "bin/",
     chrome: {
       src: "src/chrome/",
       dist: "dist/chrome/"
     },
-    firefox: {
-      src: "src/firefox/",
-      dist: "dist/firefox/"
+    firefoxInf43: {
+      src: "src/firefoxInf43/",
+      dist: "dist/firefoxInf43/"
+    },
+
+    firefoxSup43: {
+      src: "src/firefoxSup43/",
+      dist: "dist/firefoxSup43/"
     },
     safari: {
       src: "src/safari/",
@@ -40,7 +48,7 @@ module.exports = function (grunt) {
       bin: ""
     },
   };
-
+  config.slugId = config.id.toLowerCase().replace('\@',"\-at\-").replace('\.', "\-dot\-");
   grunt.initConfig({
 
     // Project settings
@@ -48,7 +56,7 @@ module.exports = function (grunt) {
 
     watch: {
       scripts: {
-        files: ['<%= config.core %>/**/*.{js,css,gif,jpeg,jpg,png,json,html}'],
+        files: ['<%= config.src %>/**/*.{js,css,gif,jpeg,jpg,png,json,html}', ],
         tasks: ['pre-build'],
         options: {
           spawn: false,
@@ -86,17 +94,17 @@ module.exports = function (grunt) {
     //BUILD FOR FIREFOX & SAFARI
     shell: {
       run: {
-        command: 'jpm run --pkgdir=<%= config.firefox.src %>'
+        command: 'jpm run --pkgdir=<%= config.firefoxInf43.src %>'
       },
       registerCOM: {
         command: ''
       },
-      firefox: {
+      firefoxInf43: {
         command: [
-          'cd <%= config.firefox.dist %>',
+          'cd <%= config.firefoxInf43.dist %>',
           'jpm xpi',
           'cd ../..',
-          'mv -f <%= config.firefox.dist %>\@<%= config.name %>-<%= config.version %>.xpi <%= config.bin %>firefox.xpi'
+          'mv -f <%= config.firefoxInf43.dist %><%= config.id%>-<%= config.version %>.xpi <%= config.bin %>firefoxInf43.xpi'
         ].join(' && ')
       },
       safari: {
@@ -104,6 +112,42 @@ module.exports = function (grunt) {
       }
     },
 
+    json_generator: {
+      firefoxInf43: {
+        dest: "<%= config.firefoxInf43.dist %>/package.json", // Destination file
+        options: {
+          id: "<%= config.id%>",
+          name: "<%= config.name%>",
+          version: "<%= config.version %>",
+          description: "<%= config.description %>",
+          permissions:{
+            "cross-domain-content": ["resource://<%= config.slugId %>/data/"]
+          }
+        }
+      }
+    },
+
+
+    compress: {
+      firefoxSup43: {
+        options: {
+          archive: '<%= config.bin %>firefoxSup43.xpi',
+          mode: 'zip'
+        },
+        files: [
+          {expand: true, cwd: '<%= config.firefoxSup43.dist %>', src: ['**']}, //FirefoxSup43
+        ]
+      },
+      chrome: {
+        options: {
+          archive: '<%= config.bin %>chrome.zip',
+          mode: 'zip'
+        },
+        files: [
+          {expand: true, cwd: '<%= config.chrome.dist %>', src: ['**']}, //chrome
+        ]
+      }
+    },
     //BUILD FOR CHROME
     crx: {
       build: {
@@ -143,8 +187,10 @@ module.exports = function (grunt) {
             '!<%= config.chrome.dist %>.git*',
             '<%= config.safari.dist %>*',
             '!<%= config.safari.dist %>.git*',
-            '<%= config.firefox.dist %>*',
-            '!<%= config.firefox.dist %>.git*',
+            '<%= config.firefoxSup43.dist %>*',
+            '!<%= config.firefoxSup43.dist %>.git*',
+            '<%= config.firefoxInf43.dist %>*',
+            '!<%= config.firefoxInf43.dist %>.git*',
             '<%= config.ie.dist %>*',
             '!<%= config.ie.dist %>.git*'
           ]
@@ -227,7 +273,7 @@ module.exports = function (grunt) {
             'images/{,*/}*.{png,gif,jpg}',
             'views/{,*/}*.html',
             'styles/{,*/}*.*',
-            'scripts/*.js',
+            'scripts/{,*/}*.js',
             'mock/*.{json,html}'
           ]
         },
@@ -238,36 +284,71 @@ module.exports = function (grunt) {
           src: [
             '_locales/{,*/}*.json',
             'manifest.json',
-            '*.html',
+            'views/*.html',
             'scripts/*.js'
           ]
         }]
       },
-      firefox: {
+      firefoxSup43: {
         files: [{
           expand: true,
           cwd: '<%= config.app %><%= config.core %>',
-          dest: '<%= config.firefox.dist %>',
+          dest: '<%= config.firefoxSup43.dist %>',
           src: [
             '*.{ico,png,txt}',
             'images/{,*/}*.{png,gif,jpg}',
             'views/{,*/}*.html',
             'styles/{,*/}*.*',
-            'scripts/*.js',
+            'scripts/{,*/}*.js',
             'mock/*.json'
           ]
         },
         {
           expand: true,
-          cwd: '<%= config.app %><%= config.firefox.src %>',
-          dest: '<%= config.firefox.dist %>',
+          cwd: '<%= config.app %><%= config.firefoxSup43.src %>',
+          dest: '<%= config.firefoxSup43.dist %>',
           src: [
-            'index.js',
-            '*.html',
-            '*.json'
+            'scripts/*.html',
+            'scripts/*.js',
+            'manifest.json'
           ]
         }]
       },
+
+      firefoxInf43: {
+        files: [{
+          expand: true,
+          cwd: '<%= config.app %><%= config.core %>',
+          dest: '<%= config.firefoxInf43.dist %>/data',
+          src: [
+            '*.{ico,png,txt}',
+            'images/{,*/}*.{png,gif,jpg}',
+            'views/{,*/}*.html',
+            'styles/{,*/}*.*',
+            'mock/*.json'
+          ]
+        },
+        {
+          flatten: true,
+          cwd: '<%= config.app %><%= config.core %>/scripts',
+          dest: '<%= config.firefoxInf43.dist %>/data',
+          src: [
+            '*.js'
+          ]
+        },
+        {
+          expand: true,
+          cwd: '<%= config.app %><%= config.firefoxInf43.src %>',
+          dest: '<%= config.firefoxInf43.dist %>',
+          src: [
+            'data/*',
+            'data/scripts/*.js',
+            'index.js',
+          ]
+        }]
+      },
+
+
       safari: {
         files: [{
           expand: true,
@@ -278,7 +359,7 @@ module.exports = function (grunt) {
             'images/{,*/}*.{png,gif,jpg}',
             'views/{,*/}*.html',
             'styles/{,*/}*.*',
-            'scripts/*.js',
+            'scripts/{,*/}*.js',
             'mock/*.json'
           ]
         },
@@ -297,10 +378,15 @@ module.exports = function (grunt) {
     // Run some tasks in parallel to speed up build process
     concurrent: {
       chrome: [
-        'crx:build'
+        'crx:build',//création d'un crx
+        'compress:chrome'//zip des sources pour distribution par mail
       ],
-      firefox: [
-        'shell:firefox'
+      firefoxInf43: [
+        'json_generator:firefoxInf43',//write the package.json
+        'shell:firefoxInf43'//pour Firefox < 43 (.xpi via jpm)
+      ],
+      firefoxSup43: [
+        'compress:firefoxSup43'//pour firefox > 43 (.zip renommé en .xpi)
       ],
       safari: [
         'shell:safari'
@@ -325,22 +411,6 @@ module.exports = function (grunt) {
       }
     },
 
-    // Compress dist files to package
-    compress: {
-      dist: {
-        options: {
-          archive: function() {
-            return 'package/DallozSearch.zip';
-          }
-        },
-        files: [{
-          expand: true,
-          cwd: 'dist/',
-          src: ['**/*'],
-          dest: ''
-        }]
-      }
-    }
   });
 
   grunt.registerTask('debug', function () {
@@ -355,32 +425,30 @@ module.exports = function (grunt) {
     'connect:test',
     'mocha'
   ]);
-
-  grunt.registerTask('build', [
+  grunt.registerTask('pre-build', [
     'clean:dist',
     'copy:chrome',
-    'copy:firefox',
+    'copy:firefoxInf43',
+    'copy:firefoxSup43',
     'copy:safari',
+  ]);
+  grunt.registerTask('build', [
+    'pre-build',
     //'useminPrepare',
     //'cssmin',
     //'concat',
     //'uglify',
     //'usemin',
-    //'compress',
     'concurrent:chrome',
-    'concurrent:firefox',
+    'concurrent:firefoxInf43',
+    'concurrent:firefoxSup43',
     //'concurrent:safari', //TODO faire les certificats
 
   ]);
   grunt.registerTask('registerCOM', [
 
   ]);
-  grunt.registerTask('pre-build', [
-    'clean:dist',
-    'copy:chrome',
-    'copy:firefox',
-    'copy:safari',
-  ]);
+
   grunt.registerTask('default', [
     //'test',
     'build'

@@ -1,7 +1,6 @@
-E:\Workspace\Freelance\ELS\src\IE\InternetExplorerExtension\InternetExplorerExtension\bin\Release\DallozSearch.dll
-E:\Workspace\Freelance\ELS\src\IE\InternetExplorerExtension\InternetExplorerExtension\bin\Release\DallozSearch.pdb
-E:\Workspace\Freelance\ELS\src\IE\InternetExplorerExtension\InternetExplorerExtension\obj\Release\InternetExplorerExtension.csprojResolveAssemblyReference.cache
-E:\Workspace\Freelance\ELS\src\IE\InternetExplorerExtension\InternetExplorerExtension\obj\Release\Interop.SHDocVw.dll
-E:\Workspace\Freelance\ELS\src\IE\InternetExplorerExtension\InternetExplorerExtension\obj\Release\InternetExplorerExtension.csproj.ResolveComReference.cache
-E:\Workspace\Freelance\ELS\src\IE\InternetExplorerExtension\InternetExplorerExtension\obj\Release\DallozSearch.dll
-E:\Workspace\Freelance\ELS\src\IE\InternetExplorerExtension\InternetExplorerExtension\obj\Release\DallozSearch.pdb
+E:\Workspace\Freelance\ELS\src\ie\InternetExplorerExtension\InternetExplorerExtension\bin\Release\ELSConnect.dll
+E:\Workspace\Freelance\ELS\src\ie\InternetExplorerExtension\InternetExplorerExtension\bin\Release\ELSConnect.pdb
+E:\Workspace\Freelance\ELS\src\ie\InternetExplorerExtension\InternetExplorerExtension\obj\Release\Interop.SHDocVw.dll
+E:\Workspace\Freelance\ELS\src\ie\InternetExplorerExtension\InternetExplorerExtension\obj\Release\InternetExplorerExtension.csproj.ResolveComReference.cache
+E:\Workspace\Freelance\ELS\src\ie\InternetExplorerExtension\InternetExplorerExtension\obj\Release\ELSConnect.dll
+E:\Workspace\Freelance\ELS\src\ie\InternetExplorerExtension\InternetExplorerExtension\obj\Release\ELSConnect.pdb

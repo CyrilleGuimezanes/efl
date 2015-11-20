@@ -1,0 +1,9 @@
+{
+    "name": "FFNAME",
+    "id": "FFID@FFPROVIDER.fr",
+    "title": "FFTITLE",
+    "description": "TBD",
+    "author": "ELS",
+    "license": "MPL 2.0",
+    "version": "FFVERSION"
+}

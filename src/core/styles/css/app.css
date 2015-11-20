@@ -6,6 +6,7 @@
   border: 1px solid #E2E2E2;
   border-radius: 4px;
   width: 100%;
+  overflow: hidden;
 }
 
 .widget-container .top-bar{
@@ -22,49 +23,60 @@
     vertical-align: middle;
 }
 
-.widget-container .top-bar .title{
-  width: 60%;
+.widget-container .top-bar .title, .widget-container .top-bar .actions{
+
   display: inline-block;
   vertical-align: middle;
   padding: 0;
 }
+.widget-container .top-bar .title{
+  width: 90%;
+}
+
 .widget-container .actions{
 
   display: inline-block;
+}
+
+.widget-container .top-bar .collapse-btn img{
+  max-width: 22px;
+  height: auto;
 }
 .widget-container .top-bar .title img{
   padding-right: 10px;
   max-height: 20px;
   vertical-align: middle;
 }
-.widget-container .top-bar .selected{
-  font-weight: bold;
-}
 
 
-.widget-container .actions > div, .widget-container .toolbar > div{
+
+.widget-container .toolbar > div{
   display: inline-block;
   font-size: 12px;
-  padding-left: 15px;
+  width: 49%;
 
 }
-.widget-container .actions span, .widget-container .toolbar span{
-  line-height: 29px;
+.widget-container .toolbar{
+  margin: 5px;
 }
-.widget-container .actions span:hover, .widget-container .toolbar span:hover{
+.widget-container .toolbar .sort{
+  text-align: right;
+}
+.widget-container .toolbar span.sort-btn.selected{
+  font-weight: bold;
+}
+.widget-container .toolbar span.sort-btn:hover{
   text-decoration: underline;
 }
 
 .widget-container .toolbar{
-  text-align: right;
   font-size: 11px;
   color: #333;
-  font-weight: bold;
 }
 .widget-container #wrapper{
   position: relative;
   overflow: hidden;
-  max-height: 250px;
+  max-height: 350px;
 }
 .widget-container .results{
   padding: 5px;
@@ -78,11 +90,11 @@
 }
 .widget-container .results .title a:link, .widget-container .results .title a:visited, .widget-container .results .title a:active{
   font-size: 14px;
-  color: #333;
+  color: #000;
   text-decoration: none;
 }
 .widget-container .results .title a:hover{
-  color: #111;
+  color: #333;
   text-decoration: none;
 }
 .widget-container .results .description{
@@ -152,24 +164,93 @@
   padding: 3px;
   margin: 5px;
 }
-
-.widget-container .filters .filter-name{
-  display: inline-block;
-  border: 1px solid #AEAEAE;
-  background: #CECECE;
-  margin: 2px;
-  padding: 5px;
+.widget-container .filters-container{
+  width: 7000px;
 }
-.widget-container .filters .filter-name:hover{
-  background: #C0C0C0;
+.widget-container .filters-container .filters-wrapper{
+  margin-left: 29px;
+}
+
+.widget-container .btn{
+  width: 27px;
+  height: 27px;
+  background: #7390B6;
+  display: inline-block;
+  z-index: 2;
+  vertical-align: top;
+  top: 64px;
+  text-align: center;
+  font-size: 16px;
+  color: #FFF;
+  line-height: 27px;
+}
+.widget-container .btn:hover{
+  background: #6380A6;
+}
+.widget-container .left-btn{
+  top: 64px;
+  left: 14px;
+  position: absolute;
+  z-index: 11;
+}
+.widget-container .right-btn{
+  position: absolute;
+  top: 64px;
+  right: 2px;
+  z-index: 11;
+}
+.widget-container .filters-container{
+  position: relative;
+  z-index: 10;
+}
+.widget-container .filters-container .filters .filter-name{
+
+  border: 1px solid #AEAEAE;
+  background: #436096;
+  margin: 2px;
+  margin-bottom: 0;
+  padding: 5px;
+  color: #FFF;
+}
+.widget-container .filters-container .filters .filter-name[data-parent="none"]{
+  display: inline-block;
+}
+.widget-container .filters-container .filters .filter-name:hover{
+  background: #234076;
   cursor: pointer;
 }
-.widget-container .filters .sub{
-  display: inline-block;
+.widget-container .filters-container .filters ul ul
+{
+	display:none;
+	position:absolute;
+	top:100%;
+	background:#fff;
+	padding:0;
+  margin: 0;
+  z-index: 100000;
 }
-.widget-container .filters .sub .filter-name{
-  display: none;
+
+.widget-container .filters-container .filters ul ul li
+{
+	float:none;
+  z-index: 10;
+  margin: 0;
+
 }
+
+
+.widget-container .filters-container .filters ul ul ul
+{
+	top:0;
+	left:100%
+}
+
+.widget-container .filters-container .filters ul li:hover > ul
+{
+	display:block
+}
+
+
 .widget-container .filter-reset{
     cursor: pointer;
     font-size: 11px;
@@ -187,4 +268,12 @@
   width: 32px;
   height: 32px;
   margin: auto;
+}
+.widget-container .more-results{
+  text-align: right;
+  padding: 5px;
+}
+.widget-container .more-results a:link, .widget-container .more-results a:visited, .widget-container .more-results a:active{
+
+  color: #000;
 }

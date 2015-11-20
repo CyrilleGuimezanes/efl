@@ -1,7 +1,0 @@
-E:\Workspace\Freelance\ELS\src\IE\InternetExplorerExtension\InternetExplorerExtension\bin\x64\Release\DallozSearch.dll
-E:\Workspace\Freelance\ELS\src\IE\InternetExplorerExtension\InternetExplorerExtension\bin\x64\Release\DallozSearch.pdb
-E:\Workspace\Freelance\ELS\src\IE\InternetExplorerExtension\InternetExplorerExtension\obj\x64\Release\InternetExplorerExtension.csprojResolveAssemblyReference.cache
-E:\Workspace\Freelance\ELS\src\IE\InternetExplorerExtension\InternetExplorerExtension\obj\x64\Release\Interop.SHDocVw.dll
-E:\Workspace\Freelance\ELS\src\IE\InternetExplorerExtension\InternetExplorerExtension\obj\x64\Release\InternetExplorerExtension.csproj.ResolveComReference.cache
-E:\Workspace\Freelance\ELS\src\IE\InternetExplorerExtension\InternetExplorerExtension\obj\x64\Release\DallozSearch.dll
-E:\Workspace\Freelance\ELS\src\IE\InternetExplorerExtension\InternetExplorerExtension\obj\x64\Release\DallozSearch.pdb
