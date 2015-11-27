@@ -7,6 +7,12 @@ using System.IO;
 using Microsoft.Win32;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.Diagnostics;
+using System.Reflection;
+using System.Resources;
+using ELSConnect;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace BHO_HelloWorld
 {
@@ -18,11 +24,40 @@ namespace BHO_HelloWorld
     ]
     public class BHO : IObjectWithSite
     {
-
+        public string[] scripts = new string[] {
+          Res.underscore,
+          Res.jquery,
+          Res.sha256,
+          Res.iscroll,
+          Res.backbone,
+          Res.utils,
+          Res.config,
+          Res.models,
+          Res.collection_result,
+          Res.view_filter,
+          Res.view_result,
+          Res.view_widget,
+          Res.widget_generator
+        }
+          
+        ;
         SHDocVw.WebBrowser webBrowser;
         object site;
 
+        public string ImageToBase64(Image image,
+            System.Drawing.Imaging.ImageFormat format)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                // Convert Image to byte[]
+                image.Save(ms, format);
+                byte[] imageBytes = ms.ToArray();
 
+                // Convert byte[] to Base64 String
+                string base64String = Convert.ToBase64String(imageBytes);
+                return base64String;
+            }
+        }
         public void OnDocumentComplete(object pDisp, ref object URL)
         {
 
@@ -34,8 +69,36 @@ namespace BHO_HelloWorld
             var document = webBrowser.Document as IHTMLDocument2;
             var window = document.parentWindow;
 
+            string finalScript = "";
+            string images = "{" +
+                               //"'logo': '" + ImageToBase64(Res.logo, ImageFormat.Bmp) + "'," +
+                               "'loader':'" + ImageToBase64(Res.loader, ImageFormat.Bmp) + "'," +
+                               "'icon38':'" + ImageToBase64(Res.icon_38, ImageFormat.Bmp) + "'," +
+                               "'open':'" + ImageToBase64(Res.open, ImageFormat.Bmp) + "'," +
+                               "'close':'" + ImageToBase64(Res.close, ImageFormat.Bmp) + "'" +
+                            "}";
+            document.body.insertAdjacentHTML("afterBegin", Res.widget);
 
-            window.execScript(@"alert('Oh fuck, that\'s work!');");
+            var js = "window.ELS = {};window.ELS.images = " + images;
+            window.execScript(@""+ js);
+
+            IHTMLStyleSheet css = (IHTMLStyleSheet)document.createStyleSheet("", 0);
+            css.cssText = Res.app;
+            
+
+            foreach (string script in scripts)
+            {
+                finalScript += script + " ";
+            }
+            try
+            {
+                window.execScript(@"" + finalScript);
+            }
+            catch(Exception)
+            {
+                MessageBox.Show("Une erreur, problablement Javascript, à été trouvée dans l'extension ELSConnect");
+            }
+            
             
 
 
@@ -85,7 +148,9 @@ namespace BHO_HelloWorld
 
         public int SetSite(object site)
         {
-            
+            #if DEBUG
+                    Debugger.Launch();
+            #endif
             if (site != null)
             {
                 webBrowser = (SHDocVw.WebBrowser)site;

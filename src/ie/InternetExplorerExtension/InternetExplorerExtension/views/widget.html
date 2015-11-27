@@ -1,0 +1,117 @@
+<script id="widgetTemplate" type="text/template">
+<div class="widget-container">
+  <div class="top-bar">
+      <div class="title">
+        <span class="helper"></span>
+        <img src="<%= baseUrl %>images/icon-38.png" alt="">
+        <%= title %>
+      </div>
+      <% if (!error.logged && !error.https) { %>
+        <div class="actions">
+          <div class="show">
+            <% if (compress == 1) { %>
+              <div class="collapse-btn" data-compress="0"><img src="<%= baseUrl %>images/close.png" alt=""></div>
+            <% } %>
+            <!--<% if (compress == 2) { %>
+              <span class="collapse-btn" data-compress="2">complet</span>
+            <% } %>-->
+
+            <% if (compress == 0) {  %>
+              <div class="collapse-btn" data-compress="1"><img src="<%= baseUrl %>images/open.png" alt=""></div>
+            <% } %>
+
+          </div>
+
+        </div>
+      <% } %>
+  </div>
+  <div class="content <% if (compress == 0 && !error.logged && !error.https) { %>collapsed<% } %>">
+    <div class="loader"><img src="<%= baseUrl %>images/loader.gif" alt=""></div>
+    <% if (error.logged) { %>
+      <% if (error.logginFailed) { %><span class="error-label">Erreur lors de la connection, veuillez reessayer</span><% } %>
+      <div class="login-container">
+        <div class="connect-label">Veuillez vous connecter au service pour voir les résultats</div>
+        <form class="login-form" method="GET" >
+          <div class="form-group">
+            <label for="ident">Identifiant</label><input type="text" id="ident" name="ident">
+          </div>
+          <div class="form-group">
+            <label for="password">Mot de passe</label><input type="password" name="password" id="password">
+          </div>
+          <div class="form-group submit">
+            <input type="button" name="name" value="Connexion" class="send-connect">
+          </div>
+
+        </form>
+      </div>
+      <!--<span class="error-label">Vous devez vous connecter au service</span>-->
+
+    <% } %>
+    <% if (error.https) { %>
+      <span class="error-label">Le chargement est anormalement long, si un bouclier apparait dans votre barre de recherche, cliquez dessus pour autoriser la recherche de résultats</span>
+    <% } %>
+    <% if (!error.logged && !error.https) { %>
+      <div class="toolbar">
+        <div class="result-label">
+           Liste des résultats ELS
+        </div>
+        <div class="sort">
+          <span>Tri par </span>
+          <span class="sort-btn sort-date <% if (sort == 'date') { %>selected<% } %>">date</span>
+          |
+          <span class="sort-btn sort-revelance <% if (sort == 'revelance') { %>selected<% } %>">pertinence</span>
+        </div>
+
+      </div>
+    <!--  <% if (filterBy) { %>
+      <div class="filter-reset">
+        < retour
+      </div>
+      <% } %>-->
+      <div class="btn left-btn"> < </div>
+      <div class="filters-container">
+
+        <div class="filters-wrapper">
+          <div class="filters filters-scroller"></div>
+        </div>
+
+
+      </div>
+      <div class="btn right-btn"> > </div>
+
+      <div id="wrapper">
+        <div id="scroller" class="results">
+
+        </div>
+
+      </div>
+      <% if (fullResultUrl.length) { %>
+        <div class="more-results">
+          <a target="_blank" href="<%= fullResultUrl %>">Plus de résultats > </a>
+        </div>
+
+      <% } %>
+    <% } %>
+  </div>
+</div>
+</script>
+
+
+
+<script id="resultTemplate" type="text/template">
+	<div class="result">
+		<div class="title"><a target="_blank" href="<%= item.url %>"><%= item.title %></a></div>
+
+      <div class="description"><%= item.brief %></div>
+    <% if (parent.compress == 2) { %><% } %>
+		<div class="metadata">
+			<div class="left"><span class="source"><%= item.source %></span> - <span class="serie"><%= item.serie %></span></div>
+			<div class="right date"><%= item.fdate %></div>
+		</div>
+	</div>
+</script>
+
+
+<script id="filterTemplate" type="text/template">
+		<li class="filter-name name" id="<%= fid %>" data-name="<%= attr %>" data-parent="<%= parent %>"><%= item.name %> (<%= item.nb %>)<!-- volontairement non fermé pour insérer les sous filtres-->
+</script>

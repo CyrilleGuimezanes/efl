@@ -4,3 +4,4 @@ E:\Workspace\Freelance\ELS\src\ie\InternetExplorerExtension\InternetExplorerExte
 E:\Workspace\Freelance\ELS\src\ie\InternetExplorerExtension\InternetExplorerExtension\obj\Release\InternetExplorerExtension.csproj.ResolveComReference.cache
 E:\Workspace\Freelance\ELS\src\ie\InternetExplorerExtension\InternetExplorerExtension\obj\Release\ELSConnect.dll
 E:\Workspace\Freelance\ELS\src\ie\InternetExplorerExtension\InternetExplorerExtension\obj\Release\ELSConnect.pdb
+E:\Workspace\Freelance\ELS\src\ie\InternetExplorerExtension\InternetExplorerExtension\obj\Release\InternetExplorerExtension.csprojResolveAssemblyReference.cache

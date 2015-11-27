@@ -300,7 +300,7 @@ module.exports = function (grunt) {
             'views/{,*/}*.html',
             'styles/{,*/}*.*',
             'scripts/{,*/}*.js',
-            'mock/*.json'
+            'mock/*.{json,html}'
           ]
         },
         {
@@ -325,15 +325,8 @@ module.exports = function (grunt) {
             'images/{,*/}*.{png,gif,jpg}',
             'views/{,*/}*.html',
             'styles/{,*/}*.*',
-            'mock/*.json'
-          ]
-        },
-        {
-          flatten: true,
-          cwd: '<%= config.app %><%= config.core %>/scripts',
-          dest: '<%= config.firefoxInf43.dist %>/data',
-          src: [
-            '*.js'
+            'scripts/{,*/}*.js',
+            'mock/*.{json,html}'
           ]
         },
         {
@@ -347,7 +340,32 @@ module.exports = function (grunt) {
           ]
         }]
       },
-
+      ie: {
+        files: [{
+          expand: true,
+          cwd: '<%= config.app %><%= config.core %>',
+          dest: '<%= config.chrome.dist %>',
+          src: [
+            '*.{ico,png,txt}',
+            'images/{,*/}*.{png,gif,jpg}',
+            'views/{,*/}*.html',
+            'styles/{,*/}*.*',
+            'scripts/{,*/}*.js',
+            'mock/*.{json,html}'
+          ]
+        },
+        {
+          expand: true,
+          cwd: '<%= config.app %><%= config.chrome.src %>',
+          dest: '<%= config.chrome.dist %>',
+          src: [
+            '_locales/{,*/}*.json',
+            'manifest.json',
+            'views/*.html',
+            'scripts/*.js'
+          ]
+        }]
+      },
 
       safari: {
         files: [{
@@ -360,7 +378,7 @@ module.exports = function (grunt) {
             'views/{,*/}*.html',
             'styles/{,*/}*.*',
             'scripts/{,*/}*.js',
-            'mock/*.json'
+            'mock/*.{json,html}'
           ]
         },
         {

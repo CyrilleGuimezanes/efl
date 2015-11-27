@@ -4,15 +4,21 @@ var Widget = Backbone.Model.extend({
 		title: "Editions Lefebvre Sarrut",
 		baseUrl: getUrl(""),
 		compress: 1,//0 = fermé, 1=semi ouvert, 2=ouvert + desc
-		sort: "revelance",
+		sortBy: "revelance",
+		ident: null,
+		password: null,
 		error: {
 			logged: false,
-			https: false
+			https: false,
+			loginFailed: false
 		},
 		results: null,
 		filters: null,
 		filterBy: null,
-		fullResultUrl: ""
+		fullResultUrl: "",
+		getImageUrl: function(uri){
+			return uri;
+		}
 	}
 });
 var Result = Backbone.Model.extend({

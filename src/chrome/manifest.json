@@ -38,7 +38,9 @@
     "tabs",
     "activeTab",
     "http://int.abonnes.efl.fr/*",
-    "http://abonnes.efl.fr/*"
+    "http://abonnes.efl.fr/*",
+    "https://securetest.efl.fr/*",
+    "http://idptest.efl.fr/*"
   ],
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self' ",
   "web_accessible_resources": [

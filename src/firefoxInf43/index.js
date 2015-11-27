@@ -10,6 +10,9 @@ var data = require('sdk/self').data;
 var { ToggleButton } = require('sdk/ui/button/toggle');
 var { PageMod } = require('sdk/page-mod');
 var { Panel } = require('sdk/panel');
+var  Tabs = require("sdk/tabs");
+
+
 
 var popup = Panel({
     contentURL: data.url('popup.html'),
@@ -27,7 +30,7 @@ function handleClick(state) {
             height: 400
         });
     }*/
-    window.open("http://int.abonnes.efl.fr");
+    Tabs.open("http://int.abonnes.efl.fr");
 }
 
 // Create a button
