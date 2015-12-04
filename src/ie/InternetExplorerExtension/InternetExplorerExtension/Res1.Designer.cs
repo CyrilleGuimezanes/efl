@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ELSConnect {
+namespace ELSConnectPOC {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace ELSConnect {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ELSConnect.Res", typeof(Res).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ELSConnectPOC.Res", typeof(Res).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -62,7 +62,14 @@ namespace ELSConnect {
         
         /// <summary>
         ///   Recherche une chaîne localisée semblable à 
-        ///
+        ///.noselect {
+        ///    -webkit-touch-callout: none;
+        ///    -webkit-user-select: none;
+        ///    -khtml-user-select: none;
+        ///    -moz-user-select: none;
+        ///    -ms-user-select: none;
+        ///    user-select: none;
+        ///}
         ///.widget-container{
         ///  margin: 5px;
         ///  background: #FEFEFE;
@@ -70,25 +77,13 @@ namespace ELSConnect {
         ///  border-radius: 4px;
         ///  width: 100%;
         ///  overflow: hidden;
+        ///  -webkit-box-shadow: 0px 1px 2px 0px rgb(220, 220, 220);
+        ///  box-shadow:  0px 1px 2px 0px rgb(220, 220, 220);
         ///}
         ///
         ///.widget-container .top-bar{
         ///  font-size: 20px;
-        ///  line-height: 20px;
-        ///  background: #FFF;
-        ///  color: #7A7A79;
-        ///  border: 1px solid #7A7A79;
-        ///  padding: 5px;
-        ///}
-        ///.helper {
-        ///    display: inline-block;
-        ///    height: 100%;
-        ///    vertical-align: middle;
-        ///}
-        ///
-        ///.widget-container .top-bar .title, .widget-container .top-bar .actions{
-        ///
-        ///  display: inline-block;        /// [le reste de la chaîne a été tronqué]&quot;;.
+        ///  [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         public static string app {
             get {
@@ -132,16 +127,19 @@ namespace ELSConnect {
         ///			return -1;
         ///			return -date.getTime();
         ///		},
-        ///		revelance: function (res) { return -res.get(&quot;revelance&quot;); },
+        ///		revelance: function (res) {
+        ///			 return -res.get(&quot;revelance&quot;);
+        ///		},
         ///	},
         ///	sortByDate: function () {
         ///		this.comparator = this.strategies[&quot;date&quot;];
-        ///		this.models.sort();
+        ///		this.sort();
         ///	},
         ///	sortByRevelance: function () {
         ///		this.comparator = this.strategies[&quot;revelance&quot;];
-        ///		this.models.sort();
-        ///	},        /// [le reste de la chaîne a été tronqué]&quot;;.
+        ///		this.sort();
+        ///	},
+        ///	init [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         public static string collection_result {
             get {
@@ -155,17 +153,17 @@ namespace ELSConnect {
         ///}
         ///var engines = {
         ///	google: {
-        ///		field: &quot;#lst-ib&quot;,
+        ///		field: [&quot;#lst-ib&quot;,&quot;#q&quot;],
         ///		results: &quot;#center_col&quot;,
         ///		tag: &quot;div&quot;
         ///	},
         ///	bing: {
-        ///		field: &quot;#sb_form_q&quot;,
+        ///		field: [&quot;#sb_form_q&quot;],
         ///		results: &quot;#b_results&quot;,
         ///		tag: &quot;li&quot;
         ///	},
         ///	yahoo: {
-        ///		field: &quot;#yschsp&quot;,
+        ///		field: [&quot;#yschsp&quot;],
         ///		results: &quot;#left&quot;,
         ///		tag: &quot;div&quot;
         ///	}
@@ -199,6 +197,16 @@ namespace ELSConnect {
         public static string filter {
             get {
                 return ResourceManager.GetString("filter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Icon semblable à (Icône).
+        /// </summary>
+        public static System.Drawing.Icon icon {
+            get {
+                object obj = ResourceManager.GetObject("icon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         
@@ -332,26 +340,25 @@ namespace ELSConnect {
         ///		title: &quot;Editions Lefebvre Sarrut&quot;,
         ///		baseUrl: getUrl(&quot;&quot;),
         ///		compress: 1,//0 = fermé, 1=semi ouvert, 2=ouvert + desc
-        ///		sort: &quot;revelance&quot;,
+        ///		sortBy: &quot;revelance&quot;,
+        ///		ident: null,
+        ///		password: null,
         ///		error: {
         ///			logged: false,
-        ///			https: false
+        ///			https: false,
+        ///			loginFailed: false
         ///		},
         ///		results: null,
         ///		filters: null,
         ///		filterBy: null,
-        ///		fullResultUrl: &quot;&quot;
+        ///		fullResultUrl: &quot;&quot;,
+        ///		getImageUrl: getImage
         ///	}
         ///});
         ///var Result = Backbone.Model.extend({
         ///	defaults: {
         ///		title: &quot;&quot;,
-        ///		brief: &quot;&quot;,
-        ///		source:  &quot;&quot;,
-        ///		serie:  &quot;&quot;,
-        ///		category:  &quot;&quot;,
-        ///		url: &quot;&quot;,
-        ///		date:  new Date(), [le reste de la chaîne a été tronqué]&quot;;.
+        ///		brief: [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         public static string models {
             get {
@@ -403,7 +410,7 @@ namespace ELSConnect {
         ///    &lt;ul class=&quot;matieres&quot;&gt;
         ///      &lt;li class=&quot;matiere&quot;&gt;&lt;/li&gt;
         ///    &lt;/ul&gt;
-        ///    &lt;script src=&quot;../s [le reste de la chaîne a été tronqué]&quot;;.
+        ///     [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         public static string popup {
             get {
@@ -457,7 +464,10 @@ namespace ELSConnect {
         
         /// <summary>
         ///   Recherche une chaîne localisée semblable à var getUrl = function(uri){
-        ///  return chrome.extension.getURL(uri);
+        ///  return &quot;res://ELSConnect.dll/&quot;+ uri;
+        ///}
+        ///var getImage = function(uri, ext){
+        ///    return &quot;data:image/png;base64,&quot;+ window.ELS.images[uri];
         ///}
         ///.
         /// </summary>
@@ -524,17 +534,12 @@ namespace ELSConnect {
         ///var WidgetView = Backbone.View.extend({
         ///	tagName: &apos;div&apos;,
         ///	className: &apos;main-widget&apos;,
-        ///	loading: false,
-        ///	toggleLoading: function(){
-        ///		if (!this.loading){
-        ///			$(&quot;.results&quot;).hide();
-        ///			$(&quot;.loader&quot;).show();
-        ///		}
-        ///		else{
-        ///			$(&quot;.results&quot;).show();
-        ///			$(&quot;.loader&quot;).hide();
-        ///		}
-        ///		this.loading = !this.loading;
+        ///	loading: function(){
+        ///
+        ///			$(&quot;.widget-container .content &gt; *&quot;).hide();
+        ///			$(&quot;.widget-container .filters-parent&quot;).hide();
+        ///			$(&quot;.widget-container .loader&quot;).show();
+        ///
         ///
         ///	},
         ///	template: function(){
@@ -544,7 +549,8 @@ namespace ELSConnect {
         ///	},
         ///	events: {
         ///		&quot;click .collapse-btn&quot;:     &quot;toggleOpen&quot;,
-        ///		 [le reste de la chaîne a été tronqué]&quot;;.
+        ///		&quot;click .sort-date&quot;:        &quot;sortByDate&quot;,
+        ///		&quot;click .sor [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         public static string view_widget {
             get {
@@ -558,14 +564,14 @@ namespace ELSConnect {
         ///  &lt;div class=&quot;top-bar&quot;&gt;
         ///      &lt;div class=&quot;title&quot;&gt;
         ///        &lt;span class=&quot;helper&quot;&gt;&lt;/span&gt;
-        ///        &lt;img src=&quot;&lt;%= baseUrl %&gt;images/icon-38.png&quot; alt=&quot;&quot;&gt;
+        ///        &lt;img src=&quot;&lt;%= getImageUrl(&apos;icon-38&apos;) %&gt;&quot; alt=&quot;&quot;&gt;
         ///        &lt;%= title %&gt;
         ///      &lt;/div&gt;
         ///      &lt;% if (!error.logged &amp;&amp; !error.https) { %&gt;
         ///        &lt;div class=&quot;actions&quot;&gt;
         ///          &lt;div class=&quot;show&quot;&gt;
         ///            &lt;% if (compress == 1) { %&gt;
-        ///              &lt;div class=&quot;collapse-btn&quot; data-compress=&quot;0&quot;&gt;&lt;img src=&quot;&lt;%= baseUrl %&gt;images/cl [le reste de la chaîne a été tronqué]&quot;;.
+        ///              &lt;div class=&quot;collapse-btn&quot; data-compress=&quot;0&quot;&gt;&lt;img src=&quot;&lt;%= getImageUrl(&apos;close&apos;) % [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         public static string widget {
             get {

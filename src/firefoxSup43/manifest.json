@@ -19,7 +19,7 @@
     }
   ],
   "background": {
-    "scripts": ["scripts/eventpage.js"],
+    "scripts": ["scripts/config.js","scripts/eventpage.js"],
     "persistent": false
   },
   "browser_action": {

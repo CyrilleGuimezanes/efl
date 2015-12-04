@@ -14,6 +14,10 @@
           "scripts/libs/sha256.js",
           "scripts/libs/iscroll.js",
           "scripts/libs/backbone.js",
+          "scripts/connector/elderecho.js",
+          "scripts/connector/int.abonnes.js",
+          "scripts/parser/elderecho.js",
+          "scripts/parser/int.abonnes.js",
           "scripts/utils.js",
           "scripts/config.js",
           "scripts/models.js",
@@ -28,7 +32,7 @@
     }
   ],
   "background": {
-    "scripts": ["scripts/eventpage.js"],
+    "scripts": ["scripts/config.js", "scripts/eventpage.js"],
     "persistent": false
   },
   "browser_action": {
@@ -37,10 +41,7 @@
   "permissions": [
     "tabs",
     "activeTab",
-    "http://int.abonnes.efl.fr/*",
-    "http://abonnes.efl.fr/*",
-    "https://securetest.efl.fr/*",
-    "http://idptest.efl.fr/*"
+    "http://*/*"
   ],
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self' ",
   "web_accessible_resources": [

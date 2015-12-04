@@ -30,6 +30,7 @@ function handleClick(state) {
             height: 400
         });
     }*/
+    //TODO use provider connnect url instead of constant (find how to include config.js here)
     Tabs.open("http://int.abonnes.efl.fr");
 }
 

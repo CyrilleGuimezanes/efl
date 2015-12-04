@@ -8,15 +8,17 @@ var ResultsCollection = Backbone.Collection.extend({
 			return -1;
 			return -date.getTime();
 		},
-		revelance: function (res) { return -res.get("revelance"); },
+		revelance: function (res) {
+			 return -res.get("revelance");
+		},
 	},
 	sortByDate: function () {
 		this.comparator = this.strategies["date"];
-		this.models.sort();
+		this.sort();
 	},
 	sortByRevelance: function () {
 		this.comparator = this.strategies["revelance"];
-		this.models.sort();
+		this.sort();
 	},
 	initialize: function () {
 		this.sortByRevelance();

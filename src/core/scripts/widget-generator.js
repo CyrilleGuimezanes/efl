@@ -17,20 +17,29 @@ var renderWidget = function(){
 	widgetView.model.set("filterBy", null);
 	widgetView.getResults();
 }
-
+function waitForElement(elementPath, callBack){
+  window.setTimeout(function(){
+    if($(elementPath).length){
+      callBack();
+    }else{
+      waitForElement(elementPath, callBack);
+    }
+  },200)
+}
 $("body").prepend($("<div class='widget-templates'/>").load(getUrl("views/widget.html"), function(a, b,c,d){
 	try{
-		            //fr ou www   word 'search' on yahoo   domain   TLD
-		var purl = /([a-zA-Z]+)\.(?:search)?\.?([a-zA-Z]+)\.([a-zA-Z\.]+)/.exec(document.location.host);
-		if (purl){
-			engine = engines[purl[2]];
-			if(engine && $(engine.results).length){
-				var lng = purl[1] != "www"? purl[1] : purl[3];
+		defineEnv(document.location.host);
+		if(engine){
+			waitForElement(engine.results, function(){
+				//debugger;
+				console.log("ELS: engine choosen: "+ !!engine);
+				
 				$(engine.results).prepend("<"+engine.tag+" class='connect-widget-inserter'/>")
 				$(".connect-widget-inserter").html(widgetView.render().el);
 				renderWidget();
-				$(engine.field).change(renderWidget);
-			}
+				for (var i = 0; i < engine.field.length; i++)
+					$(engine.field[i]).change(renderWidget);
+			});
 
 		}
 

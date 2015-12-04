@@ -43,8 +43,8 @@ module.exports = function (grunt) {
       dist: "dist/safari/"
     },
     ie: {
-      src: "src/ie/",
-      dist: "dist/ie/",
+      src: "src/ie/InternetExplorerExtension/InternetExplorerExtension/",
+      dist: "src/ie/InternetExplorerExtension/InternetExplorerExtension/",
       bin: ""
     },
   };
@@ -56,19 +56,24 @@ module.exports = function (grunt) {
 
     watch: {
       scripts: {
-        files: ['<%= config.src %>/**/*.{js,css,gif,jpeg,jpg,png,json,html}', ],
+        files: [
+                '<%= config.core %>/**/*.{js,css,gif,jpeg,jpg,png,json,html}',
+                '<%= config.chrome.src %>/**/*.{js,css,gif,jpeg,jpg,png,json,html}',
+                '<%= config.firefoxInf43.src %>/**/*.{js,css,gif,jpeg,jpg,png,json,html}',
+                '<%= config.firefoxSup43.src %>/**/*.{js,css,gif,jpeg,jpg,png,json,html}',
+                '<%= config.safari.src %>/**/*.{js,css,gif,jpeg,jpg,png,json,html}'],
         tasks: ['pre-build'],
         options: {
           spawn: false,
         },
-      },
+      }/*,
       cs: {
-        files: ['<%= config.app %>/src/ie/**/*.dll'],
-        tasks: ['pre-build'],
+        files: ['<%= config.ie.src %>/*.cs'],
+        tasks: [],
         options: {
           spawn: false,
         },
-      },
+      },*/
     },
 
 
@@ -109,6 +114,10 @@ module.exports = function (grunt) {
       },
       safari: {
         command: 'xarjs create <%= config.safari.dist %>/app.safariextension --cert cert.pem --cert apple-intermediate.pem --cert apple-root.pem --private-key privatekey.pem extension.safariextension'
+      },
+      ie: {
+        //compile DLL
+        //Copy DLL dans bin/
       }
     },
 
@@ -191,7 +200,7 @@ module.exports = function (grunt) {
             '!<%= config.firefoxSup43.dist %>.git*',
             '<%= config.firefoxInf43.dist %>*',
             '!<%= config.firefoxInf43.dist %>.git*',
-            '<%= config.ie.dist %>*',
+            //'<%= config.ie.dist %>*',
             '!<%= config.ie.dist %>.git*'
           ]
         }]
@@ -344,7 +353,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= config.app %><%= config.core %>',
-          dest: '<%= config.chrome.dist %>',
+          dest: '<%= config.ie.dist %>',
           src: [
             '*.{ico,png,txt}',
             'images/{,*/}*.{png,gif,jpg}',
@@ -408,6 +417,9 @@ module.exports = function (grunt) {
       ],
       safari: [
         'shell:safari'
+      ],
+      ie: [
+        //'shell:safari'
       ]
     },
 
@@ -449,6 +461,7 @@ module.exports = function (grunt) {
     'copy:firefoxInf43',
     'copy:firefoxSup43',
     'copy:safari',
+    'copy:ie',
   ]);
   grunt.registerTask('build', [
     'pre-build',
@@ -460,6 +473,7 @@ module.exports = function (grunt) {
     'concurrent:chrome',
     'concurrent:firefoxInf43',
     'concurrent:firefoxSup43',
+    'concurrent:ie',
     //'concurrent:safari', //TODO faire les certificats
 
   ]);

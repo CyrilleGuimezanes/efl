@@ -5,8 +5,11 @@ var Widget = Backbone.Model.extend({
 		baseUrl: getUrl(""),
 		compress: 1,//0 = fermé, 1=semi ouvert, 2=ouvert + desc
 		sortBy: "revelance",
-		ident: null,
-		password: null,
+		connected: false,
+		credential: {
+
+		},
+		//TO REMOVE
 		error: {
 			logged: false,
 			https: false,
@@ -16,9 +19,7 @@ var Widget = Backbone.Model.extend({
 		filters: null,
 		filterBy: null,
 		fullResultUrl: "",
-		getImageUrl: function(uri){
-			return uri;
-		}
+		getImageUrl: getImage
 	}
 });
 var Result = Backbone.Model.extend({

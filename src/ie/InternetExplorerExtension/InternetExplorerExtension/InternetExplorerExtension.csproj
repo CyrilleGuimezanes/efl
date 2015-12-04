@@ -7,8 +7,8 @@
     <ProjectGuid>{3B7DFD6E-D8A5-4BEE-AD3C-72BA6CADF942}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ELSConnect</RootNamespace>
-    <AssemblyName>ELSConnect</AssemblyName>
+    <RootNamespace>ELSConnectPOC</RootNamespace>
+    <AssemblyName>ELSConnectPOC</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -97,7 +97,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IEAddon.cs" />
+    <Compile Include="Addon.cs" />
+    <Compile Include="OptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OptionsForm.Designer.cs">
+      <DependentUpon>OptionsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interop.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Res1.Designer.cs">
@@ -118,7 +124,6 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
     <None Include="ELSConnectInternetExlorerExtension.snk" />
   </ItemGroup>
   <ItemGroup>
@@ -137,55 +142,31 @@
     <None Include="images\open.png" />
     <None Include="mock\filter.html" />
     <None Include="mock\page.html" />
-    <Content Include="scripts\collection.result.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="scripts\config.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="scripts\libs\backbone.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="scripts\libs\iscroll.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="scripts\libs\jquery.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="scripts\libs\sha256.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="scripts\libs\underscore.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="scripts\models.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="scripts\utils.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="scripts\view.filter.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="scripts\view.result.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="scripts\view.widget.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="scripts\widget-generator.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <None Include="Resources\icon.ico" />
+    <Content Include="scripts\collection.result.js" />
+    <Content Include="scripts\config.js" />
+    <Content Include="scripts\libs\backbone.js" />
+    <Content Include="scripts\libs\iscroll.js" />
+    <Content Include="scripts\libs\jquery.js" />
+    <Content Include="scripts\libs\sha256.js" />
+    <Content Include="scripts\libs\underscore.js" />
+    <Content Include="scripts\models.js" />
+    <Content Include="scripts\utils.js" />
+    <Content Include="scripts\view.filter.js" />
+    <Content Include="scripts\view.result.js" />
+    <Content Include="scripts\view.widget.js" />
+    <Content Include="scripts\widget-generator.js" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="OptionsForm.resx">
+      <DependentUpon>OptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Res.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Res1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>"C:\Program Files (x86)\Microsoft SDKs\Windows\v8.0A\bin\NETFX 4.0 Tools\gacutil.exe" /u "$(TargetName)"

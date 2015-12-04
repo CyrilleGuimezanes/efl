@@ -3,21 +3,21 @@
   <div class="top-bar">
       <div class="title">
         <span class="helper"></span>
-        <img src="<%= getImageUrl('icon38') %>images/icon-38.png" alt="">
+        <img src="<%= getImageUrl('icon-38') %>" alt="">
         <%= title %>
       </div>
-      <% if (!error.logged && !error.https) { %>
+      <% if (!error.logged) { %>
         <div class="actions">
           <div class="show">
             <% if (compress == 1) { %>
-              <div class="collapse-btn" data-compress="0"><img src="<%= baseUrl %>images/close.png" alt=""></div>
+              <div class="collapse-btn" data-compress="0"><img src="<%= getImageUrl('close') %>" alt=""></div>
             <% } %>
             <!--<% if (compress == 2) { %>
               <span class="collapse-btn" data-compress="2">complet</span>
             <% } %>-->
 
             <% if (compress == 0) {  %>
-              <div class="collapse-btn" data-compress="1"><img src="<%= baseUrl %>images/open.png" alt=""></div>
+              <div class="collapse-btn" data-compress="1"><img src="<%= getImageUrl('open') %>" alt=""></div>
             <% } %>
 
           </div>
@@ -26,9 +26,9 @@
       <% } %>
   </div>
   <div class="content <% if (compress == 0 && !error.logged && !error.https) { %>collapsed<% } %>">
-    <div class="loader"><img src="<%= baseUrl %>images/loader.gif" alt=""></div>
-    <% if (error.logged) { %>
-      <% if (error.logginFailed) { %><span class="error-label">Erreur lors de la connection, veuillez reessayer</span><% } %>
+    <div class="loader"><img src="<%= getImageUrl('loader', 'gif') %>" alt=""></div>
+    <% if (error.logged || error.loggin_failed) { %>
+      <% if (error.loggin_failed) { %><span class="error-label">Erreur lors de la connection, veuillez reessayer</span><% } %>
       <div class="login-container">
         <div class="connect-label">Veuillez vous connecter au service pour voir les résultats</div>
         <form class="login-form" method="GET" >
@@ -47,10 +47,9 @@
       <!--<span class="error-label">Vous devez vous connecter au service</span>-->
 
     <% } %>
-    <% if (error.https) { %>
-      <span class="error-label">Le chargement est anormalement long, si un bouclier apparait dans votre barre de recherche, cliquez dessus pour autoriser la recherche de résultats</span>
-    <% } %>
-    <% if (!error.logged && !error.https) { %>
+    <% if (!error.logged && !error.no_result && !error.request_failed) { %>
+
+
       <div class="toolbar">
         <div class="result-label">
 
@@ -87,6 +86,7 @@
 
 
       <div id="wrapper">
+
         <div id="scroller" class="results">
 
         </div>
@@ -96,6 +96,8 @@
           Plus de résultats >
         </div>
     <% } %>
+    <% if (error.no_result) { %><span class="error-label">Aucun résultat n'a été trouvé</span><% } %>
+    <% if (error.request_failed) { %><span class="error-label">Une erreur est survenue, veuillez reessayer ultérieurement.</span><% } %>
   </div>
 </div>
 </script>

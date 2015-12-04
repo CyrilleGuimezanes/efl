@@ -8,3 +8,4 @@ test/bower_components
 package
 
 /bin
+/src/ie/InternetExplorerExtension/InternetExplorerExtension/bin

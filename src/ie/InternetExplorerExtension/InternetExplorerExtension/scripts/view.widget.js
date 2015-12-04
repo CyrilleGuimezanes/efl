@@ -2,17 +2,12 @@
 var WidgetView = Backbone.View.extend({
 	tagName: 'div',
 	className: 'main-widget',
-	loading: false,
-	toggleLoading: function(){
-		if (!this.loading){
-			$(".results").hide();
-			$(".loader").show();
-		}
-		else{
-			$(".results").show();
-			$(".loader").hide();
-		}
-		this.loading = !this.loading;
+	loading: function(){
+
+			$(".widget-container .content > *").hide();
+			$(".widget-container .filters-parent").hide();
+			$(".widget-container .loader").show();
+
 
 	},
 	template: function(){
@@ -29,18 +24,21 @@ var WidgetView = Backbone.View.extend({
 		"click .filter-reset":     "filterReset"
 	},
 	connect: function(){
-		var ident = $("#ident").val();
-		var password = $("#password").val();
+		var provider = getProvider();
+		var encode = provider.params.encodeFunction || function(x){return x};
+		var credential = this.model.get("credential");
+		credential.login = $("#ident").val();
+		credential.password = encode($("#password").val());
+		this.model.set("credential", credential);
 
-		var url = config.BASE_URL + "/EFLPublicGoodies/bypass.do?username="+ident+"&password="+sha256(password)+"&service=<SERVICE>&origin=googleSearch"
-		this.getResults({login: url});
+		this.getResults();
 	},
 
 	filterView: function(ev){
 		var el = $(ev.currentTarget);
-		var url = /*config.BASE_URL + "/EFL2/app/connect/refine?checked="+el.attr("id")+"&contextId="+this.model.get("contextId")*/getUrl("mock/filter.html")
 		this.model.set("filterBy", el);
-		this.getResults({filter: url});
+
+		this.getResults({filter: true});
 	},
 	filterReset: function(){
 		$(".filter-name").hide();
@@ -54,153 +52,132 @@ var WidgetView = Backbone.View.extend({
 		this.model.set("compress", value);
 		this.render();
 		if (value == 0){
-			$(".filters-container .btn").hide();
+			$(".filters-parent").hide();
 		}
 		else {
-			$(".filters-container .btn").show();
+			$(".filters-parent").show();
 		}
 	},
 	sortByDate: function(){
 		this.model.get("results").sortByDate();
-		this.model.get("results").sort = 'date';
+		this.model.set("sortBy", "date");
 		this.render();
 	},
 	sortByRevelance: function(){
 		this.model.get("results").sortByRevelance();
-		this.model.get("results").sort = 'revelance';
+		this.model.set("sortBy", "revelance");
 		this.render();
 	},
+	setError: function(error){
+		var errors = this.model.get("error");
+		errors.logged = error == "LOGGIN_FAILED";
+		errors.no_result = error == "NO_RESULT";
+		errors.request_failed = error == "REQUEST_FAILLED"
+		this.model.set("error", errors);
+	},
+	getResults: function(params){
 
-	getResults: function(urls){
-		this.toggleLoading();
+		this.loading();
 
 		var _this = this;
-		var term = $(engine.field).val();
-		var url = /*config.BASE_URL + "/EFL2/app/connect/searchResults?searchTerms="+term+"&CONNECT=9e819f0d668d7b3288a83c54f2fca803&matiere=";*/getUrl("mock/page.html?q="+term)
-		this.model.set("fullResultUrl", url);
-		if(urls){
-			if(urls.login){
-				url = urls.login.replace("<SERVICE>", encodeURIComponent(url));
+		var term = "";
+		for (var i = 0; i < engine.field.length; i++){
+			var eng = $(engine.field[i]);
+			if(eng.length && eng.val().length){
+				term = eng.val();
+				break;
 			}
-			else if(urls.filter){
-				url = urls.filter;
+
+		}
+
+		var provider = getProvider();
+		var connector = getConnector();
+		var parser = getParser();
+		var isConnected = this.model.get("connected");
+
+		if (!provider.params.secured)//si non sécurisé, nous sommes connecté
+			isConnected = true;
+
+
+		var url = provider.urls.result;
+		var isFilter = true;
+
+		var prepareUrl = function(url){
+			var credential = _this.model.get("credential");
+			var filter = _this.model.get("filterBy");
+
+			for (var cred in credential){
+				url = url.replace("{{"+cred+"}}", credential[cred]);
+			}
+			url = url.replace("{{term}}", term);
+			if (filter)
+				url = url.replace("{{filter}}", filter.attr("id") || "");
+			return url;
+		}
+
+
+		this.model.set("fullResultUrl", prepareUrl(url));
+		if(params && params.filter){
+			//var url = ;//getUrl("mock/filter.html")
+			url = provider.urls.filter;
+			isFilter = false;
+		}
+			//baseUrl = ";//getUrl("mock/page.html?q="+term)
+
+		jQuery.support.cors = true;
+		var _getResults = function(url, isFilter){
+			try{
+				_this.setError(null);
+
+				$.ajax({
+					url: prepareUrl(url),
+					method: provider.params.method || 'GET',
+					dataType: provider.params.dataType || "text",
+					crossDomain: true
+				}).success(function(data){
+					var follow = provider.params.follow302 || true;
+					//if header Location == follow call _getResults with follow Location
+					var ret = parser(data, {isFilter: isFilter});
+					var credential = _this.model.get("credential");
+					_this.model.set("credential", $.extend(credential, ret.credential || {}));
+					if (!ret.results.length)
+						_this.setError("NO_RESULT");
+					resultsCollection.reset(ret.results);
+					_this.render();
+				}).fail(function (response) {
+					_this.setError("REQUEST_FAILLED");
+					_this.render();
+				})
+			}
+			catch(e){
+				console.error(e);
 			}
 		}
 
 
-		$.ajax({
-			url: url,
-			method: 'GET',
-			dataType:"text",
-		}).success(function( data ) {
-			var noNewLine = data.replace(/\r?\n|\r/g, '');
-			var noDoctype = /<body.*?>(.*)<\/body>/.exec(noNewLine) || noNewLine;
-			var body = document.createElement( 'div' );
-			body.innerHTML = typeof noDoctype == "object"? noDoctype[1] : noDoctype;
-			var results = body.querySelectorAll(".resultItem");
-			var contextIdBrut = /'contextid'\s?,\s?([0-9]+)/i.exec(noNewLine);
-
-			//on récupére le contextId dans le code de la page
-			if(contextIdBrut && contextIdBrut.length)
-				_this.model.set("contextId", parseInt(contextIdBrut[1]));
-
-			if (!results.length){
-				_this.model.attributes.error.logged = true;
-			}
-			else{
-				var filters = body.querySelectorAll(".connectFacet") || [];
-				var createFilter = function(list){
-					if (!list.length)
-						return [];
-					var ret = [];
-					for (var i = 0; i < list.length; i++){
-						var text = $(list[i].firstChild).text();
-						var parts = /(.*)\(([0-9]+)\)/.exec(text);
-						var subFilters = list[i].querySelectorAll(".connectSubFacet") || [];
-
-						var item = new Filter({
-							id: $(list[i]).attr("id"),
-							name: parts[1].trim(),
-							nb: parseInt(parts[2].trim()),
-							subs : createFilter(subFilters)
-						});
 
 
-						ret.push(item);
-					}
-					return ret;
-				}
-
-				var parseDate = function(input){
-					var res = /([0-9]+)?\/?([0-9]+)?\/?([0-9]+)/.exec(input.trim());
-					if (res && res[1])
-						return {day: parseInt(res[1]), month: parseInt(res[2]), year: parseInt(res[3])};
-					return null;
-				}
-				var parseSerie = function(input){
-					var res = /([a-zA-Z\s0-9\u00C0-\u017F]+)\s\(([a-zA-Z\s0-9\u00C0-\u017F\s]+)\)/.exec(input.trim());
-					if (res && res[1] && res[2])
-						return {serie: res[1], category: res[2]};
-					return null;
-				}
-				var parseSource = function(input){
-					var res = /([a-zA-Z\s0-9\u00C0-\u017F]+)/.exec(input.trim());
-					if (res[1] != null)
-						return {source: res[1]};
-					return null;
-				}
-				if(!urls || !urls.filter){//si on est en train de filtrer, on garde nos filtre existants
-					var ffilters = createFilter(filters);
-					filtersCollection.reset(ffilters);
-				}
-
-
-				var ret = [];
-				for (var i = 0; i < results.length; i++){
-					var result = results[i];
-					var parsedMetaData = {};
-					if (result.querySelector(".bookTitle")){
-						var metadatas = result.querySelector(".bookTitle").innerHTML.split("-");
-						for (var y = 0; y < metadatas.length; y++)
-						{
-							var metadata = metadatas[y];
-							var d =  parseSerie(metadata) || parseDate(metadata) || parseSource(metadata);
-							if (d)
-								$.extend(parsedMetaData, d);
-						}
-					}
-					//JUST FOR DEBUG SORTS
-					parsedMetaData.day = Math.abs(parsedMetaData.day - (i * i));
-
-					var skey = result.querySelector(".openDocumentLink");
-					var key = skey && skey.attributes["key"]? skey.attributes["key"].value : "";
-					var id = skey && skey.attributes["id"]? skey.attributes["id"].value : "";
-					var item = new Result({
-						title: result.querySelector(".openDocumentLink")? result.querySelector(".openDocumentLink").innerHTML : "",
-						brief: result.querySelector(".brief")? result.querySelector(".brief").innerHTML: "",
-						source:  parsedMetaData.source || "",
-						serie:  parsedMetaData.serie || "",
-						category:  parsedMetaData.category || "",
-						revelance: results.length - i,//le serveur nous retourne les résultats par ordre de pertinence donc la pertinence est croissante => i
-						url: "http://abonnes.efl.fr/EFL2/app/connect/documentView?documentCode="+key+"&refId="+id+"&contextId=1&CONNECT=d6e4b64f7b2e949ab35fc46e4063f89d",
-						date:  parsedMetaData && parsedMetaData.day? new Date(parsedMetaData.year, parsedMetaData.month, parsedMetaData.day) : null,
-						fdate: parsedMetaData && parsedMetaData.day?  parsedMetaData.day + "-" +parsedMetaData.month+ "-"+parsedMetaData.year: ""
+		if (isConnected){
+			_getResults(url, isFilter);
+		}
+		else{
+			try{
+				connector(prepareUrl(provider.urls.connect), _this.model.get("credential"))
+					.success(function(){
+						_this.model.set("connected", true);
+						_getResults(url, isFilter)
 					})
-					ret.push(item);
-
-				}
-				resultsCollection.reset(ret);
+					.fail(function(){ throw "Failed to connect"});
 			}
-			//setTimeout(function(){
+			catch(e){
+				console.error(e);
+				_this.setError("LOGGIN_FAILED");
 				_this.render();
-				_this.toggleLoading();
-			//}, 3000)
+			}
+		}
 
-		}).fail(function (response,a,b,c,d) {
-			_this.model.get("error").logged = true;
-			_this.render();
-			_this.toggleLoading();
-		})
+
+
 	},
 	scroll: null,
 	render: function() {
@@ -226,52 +203,54 @@ var WidgetView = Backbone.View.extend({
 		setTimeout(function(){
 			var el = _this.$el.find("#wrapper");
 			if (el.length){
-				_this.scroll = new IScroll(el[0],{
+				/*_this.scroll = new IScroll(el[0],{
 					mouseWheel: true,
 					scrollbars: true
 				});
+*/
+				var lock = false;
+				var pos = 0;
+				var totalWidth = $(".widget-container").innerWidth() - 10;
+				var filters = $(".filter-name[data-parent='none']");
+				$(".filters-container").width(totalWidth / 10 * 8);
+				$(".filters-wrapper").hover(function(){
+					$(".filters-container").height(300);
+				},function(){
+					$(".filters-container").height(40);
+				});
+				$(".left-btn").width(totalWidth/10).mousedown(function(){
+					if (lock)
+						return;
+					var container = $(".filters > ul");
+					if (pos < 0){
+						lock = true;
+						pos+= 100;
+						container.animate({left: pos}, function(){
+							lock = false;
+						});
+					}
 
-				_this.filterScroll = new IScroll(".filters-wrapper",{
-					mouseWheel: false,
-					scrollbars: false,
-					scrollX: true,
-					scrollY: false,
-					bounce: true,
 				});
-				$(".left-btn").mousedown(function(){
-					if (Math.abs(_this.filterScroll.x) > 0)
-						_this.filterScroll.scrollBy(60, 0);
-				});
-				$(".right-btn").mousedown(function(){
+				$(".right-btn").width(totalWidth/10).mousedown(function(){
+					if (lock || filters.length < 5)
+						return;
+					var container = $(".filters > ul");
 					var el = $("[data-parent=none]").last();
-					var max = Math.abs(el.offset().left - el.width()) + 600;
-					if (Math.abs(_this.filterScroll.x) < max)
-						_this.filterScroll.scrollBy(-60, 0);
+					var max = -Math.abs(el.offset().left - el.width()) - 200;
+					if(pos > max){
+						lock = true;
+						pos-= 100;
+						container.animate({left: pos}, function(){
+							lock = false;
+						});
+					}
+
 				});
-				_this.scroll.refresh();
+				//_this.scroll.refresh();
 			}
 
 		}, 200)
 
-		/////////////////////////////// SHOW/HIDE FILTERS ////////////////////////////////////////
-		/*if (this.model.get("filterBy") != null){
-			var el = this.model.get("filterBy");
-			var children = $('.filter-name[data-parent="'+el.data("name")+'"]');
-
-			$(".filter-name").not("#"+el.attr("id")).hide();
-
-			if (children.length){//si on a encore des niveau de filtres on les affiches
-				children.show();
-			}
-			else {
-				var parent = $('.filter-name[data-name="'+el.data("parent")+'"]').first();
-				parent.show();
-				$('.filter-name[data-parent="'+parent.data("name")+'"]').show();
-			}
-		}
-		else {
-			$('.filter-name[data-parent!="none"]').hide();
-		}*/
 
 		return this;
 	}
