@@ -92,6 +92,7 @@ var WidgetView = Backbone.View.extend({
 
 		var provider = getProvider();
 		var connector = getConnector();
+		var credential = this.model.get("credential");
 		var parser = getParser();
 		var isConnected = this.model.get("connected");
 
@@ -100,7 +101,7 @@ var WidgetView = Backbone.View.extend({
 
 
 		var url = provider.urls.result;
-		var isFilter = true;
+		var filterResult = false;
 
 		var prepareUrl = function(url){
 			var credential = _this.model.get("credential");
@@ -120,27 +121,58 @@ var WidgetView = Backbone.View.extend({
 		if(params && params.filter){
 			//var url = ;//getUrl("mock/filter.html")
 			url = provider.urls.filter;
-			isFilter = false;
+			filterResult = true;
 		}
 			//baseUrl = ";//getUrl("mock/page.html?q="+term)
 
 		jQuery.support.cors = true;
-		var _getResults = function(url, isFilter){
+		var _getResults = function(url, filterResult){
 			try{
 				_this.setError(null);
-
-				$.ajax({
+				var params = {
 					url: prepareUrl(url),
-					method: provider.params.method || 'GET',
-					dataType: provider.params.dataType || "text",
-					crossDomain: true
-				}).success(function(data){
+					crossDomain: true,
+					type: "GET",
+					dataType: "text"
+				}
+				if(filterResult)
+					params = _.extend(params, provider.params.filter);
+				else
+					params = _.extend(params, provider.params.result);
+
+				if (params.data){
+					for (var i in params.data)
+						if(typeof params.data[i] == "string")
+							params.data[i] = prepareUrl(params.data[i]);
+					params.data = JSON.stringify(params.data);
+				}
+
+
+				$.ajax(params)
+				.success(function(data){
 					var follow = provider.params.follow302 || true;
 					//if header Location == follow call _getResults with follow Location
-					var ret = parser(data, {isFilter: isFilter});
+
+					var ret = null;
+					try{
+						ret = parser(data);
+					}
+					catch(e){
+						console.error("An error occured during parsing. Please check that "+provider.parser +" parser is defined an have no error");
+						throw "Parsing failed!";
+					}
+					try{
+						filtersCollection.reset(ret.filters);
+					}
+					catch(e){
+						console.error("An error occured during filters setting.");
+						throw "Parsing failed!";
+					}
+
+
 					var credential = _this.model.get("credential");
 					_this.model.set("credential", $.extend(credential, ret.credential || {}));
-					if (!ret.results.length)
+					if (ret && ret.results && !ret.results.length)
 						_this.setError("NO_RESULT");
 					resultsCollection.reset(ret.results);
 					_this.render();
@@ -150,6 +182,8 @@ var WidgetView = Backbone.View.extend({
 				})
 			}
 			catch(e){
+				_this.setError("REQUEST_FAILLED");
+				_this.render();
 				console.error(e);
 			}
 		}
@@ -158,16 +192,22 @@ var WidgetView = Backbone.View.extend({
 
 
 		if (isConnected){
-			_getResults(url, isFilter);
+			_getResults(url, filterResult);
 		}
 		else{
+
 			try{
+				if (!credential.login)
+					throw "Connect Failed";
+
 				connector(prepareUrl(provider.urls.connect), _this.model.get("credential"))
 					.success(function(){
 						_this.model.set("connected", true);
-						_getResults(url, isFilter)
+						_getResults(url, filterResult)
 					})
-					.fail(function(){ throw "Failed to connect"});
+					.fail(function(){
+						throw "Failed to connect"}
+					);
 			}
 			catch(e){
 				console.error(e);

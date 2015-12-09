@@ -1,4 +1,4 @@
-var _provider = "int.abonnes";
+var _provider = "dalloz";
 var availableEngines = {
 	google: {
 		field: ["#lst-ib","#q"],
@@ -22,29 +22,49 @@ var availableProvider = {
 		parser: "elderecho",
 		connector: "elderecho",
 		urls: {
+			base: "",
 			result: "http://online.elderecho.com/ipad/office/resultados.action?jsessionid=E19C03E846E443096C4BDE47AB92C7DF.TC_ONLINE03&criteriosBusqueda.fulltext={{term}}&origen=office&seccion=buscador",
 			connect: "http://online.elderecho.com/ipad/ac/login.action?user=ac&pwd=ac2013",
 			filter: ""
 		},
 		params: {
 			secured: true,
-			dataType: "text"
+			result:{
+				dataType: "text"
+			},
+			filter:{
+				dataType: "text"
+			}
+
 		}
 	},
 	"dalloz": {
 		parser: "dalloz",
 		connector: "dalloz",
 		urls: {
-			result: "",
+			base: "http://test.validation.dalloz-avocats.fr/GA/Login",
+			result: "http://test.validation.dalloz-avocats.fr/documentation/Connect/searchResults?searchTerms={{term}}&CONNECT=689e43fc44ad245f9bdc76ec29e140a1&thematique=",
 			connect: "",
-			filter: ""
+			filter: "http://test.validation.dalloz-avocats.fr/documentation/ListeHandler.svc/GetResultListGlobal?zapette-refinement-action=add&zapette-refinement-value={{filter}}&ctxt=0_YSR0MT1zb2NpYWzCp3gkc2Y9cGFnZS1yZWNoZXJjaGU=&pwt=connect"
 		},
 		params: {
-			secured: true,
-			dataType: "xml"
+			secured: false,
+			result:{
+				dataType: "text"
+			},
+			filter:{
+				type: "POST",
+				dataType: "text",
+				contentType: "application/json; charset=UTF-8",
+				data:{
+					"ctxt":"0_YSR0MT1zb2NpYWzCp3gkc2Y9cGFnZS1yZWNoZXJjaGU=",
+					"ctxt1": {SortByDate: "false", PageNum: "1", PageSize: "10", OnlyResultsInSubscription: "true", Paging: true,SortByDate: "false", Tab: "DZ/DZFR"},
+					"zapette": "{{filter}}"
+				}
+			}
 		}
 	},
-	"int.abonnes": {
+	"intabonnes": {
 		parser: "intabonnes",
 		connector: "intabonnes",
 		urls: {
@@ -54,7 +74,7 @@ var availableProvider = {
 			filter: "http://int.abonnes.efl.fr/EFL2/app/connect/refine?checked={{filter}}&contextId={{contextId}}"
 		},
 		params: {
-			secured: false,
+			secured: true,
 			dataType: "text",
 			encodeFunction: window.sha256
 		}
@@ -73,9 +93,6 @@ var availableProvider = {
 			dataType: "text",
 			encodeFunction: window.sha256
 		}
-	},
-	"mock": {
-
 	}
 
 }

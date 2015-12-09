@@ -6,15 +6,8 @@ var Widget = Backbone.Model.extend({
 		compress: 1,//0 = fermé, 1=semi ouvert, 2=ouvert + desc
 		sortBy: "revelance",
 		connected: false,
-		credential: {
-
-		},
-		//TO REMOVE
-		error: {
-			logged: false,
-			https: false,
-			loginFailed: false
-		},
+		credential: {},
+		error: {},
 		results: null,
 		filters: null,
 		filterBy: null,

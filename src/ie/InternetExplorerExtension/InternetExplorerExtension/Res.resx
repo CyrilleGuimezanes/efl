@@ -133,6 +133,12 @@
   <data name="config" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>scripts\config.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="connector_elderecho" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>scripts\connector\elderecho.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="connector_intabonnes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>scripts\connector\int.abonnes.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="db" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>mock\db.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -177,6 +183,12 @@
   </data>
   <data name="page" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>mock\page.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="parser_elderecho" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>scripts\parser\elderecho.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="parser_intabonnes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>scripts\parser\int.abonnes.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="popup" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>views\popup.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>

@@ -49,12 +49,16 @@ var button = ToggleButton({
 
 // Create a content script
 var pageMod = PageMod({
-    include: /.*(google|yahoo|bing).*/, // all urls
+    include: /.*(google|yahoo|bing).*/, // google, yahoo, bing
     contentScriptFile: [data.url("scripts/libs/underscore.js"),
                         data.url("scripts/libs/jquery.js"),
                         data.url("scripts/libs/sha256.js"),
                         data.url("scripts/libs/iscroll.js"),
                         data.url("scripts/libs/backbone.js"),
+                        data.url("scripts/connector/elderecho.js"),
+                        data.url("scripts/connector/int.abonnes.js"),
+                        data.url("scripts/parser/elderecho.js"),
+                        data.url("scripts/parser/int.abonnes.js"),
                         data.url("scripts/utils.js"),
                         data.url("scripts/config.js"),
                         data.url("scripts/models.js"),
@@ -64,6 +68,7 @@ var pageMod = PageMod({
                         data.url("scripts/view.widget.js"),
                         data.url("scripts/widget-generator.js")
 ],
+
     contentStyleFile: [data.url('styles/css/app.css')],
     contentScriptWhen: "end",
     contentScriptOptions: {

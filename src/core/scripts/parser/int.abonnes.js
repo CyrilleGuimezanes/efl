@@ -62,10 +62,6 @@ window.parsers["intabonnes"] = function(data, params){
         return {source: res[1]};
       return null;
     }
-    if(params && params.isFilter){//si on est en train de filtrer, on garde nos filtre existants
-      var ffilters = createFilter(filters);
-      filtersCollection.reset(ffilters);
-    }
 
 
     var ret = [];
@@ -83,7 +79,7 @@ window.parsers["intabonnes"] = function(data, params){
         }
       }
       //JUST FOR DEBUG SORTS
-      parsedMetaData.day = Math.abs(parsedMetaData.day - (i * i));
+      //parsedMetaData.day = Math.abs(parsedMetaData.day - (i * i));
 
       var skey = result.querySelector(".openDocumentLink");
       var key = skey && skey.attributes["key"]? skey.attributes["key"].value : "";
@@ -106,7 +102,8 @@ window.parsers["intabonnes"] = function(data, params){
   }
   return {
     results: ret,
-    credential: contextId ? {contextId: contextId} : {}
+    credential: contextId ? {contextId: contextId} : {},
+    filters: createFilter(filters)
   };
 
 }

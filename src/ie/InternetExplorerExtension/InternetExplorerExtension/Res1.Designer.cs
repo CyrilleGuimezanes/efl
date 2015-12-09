@@ -148,10 +148,8 @@ namespace ELSConnectPOC {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à var config = {
-        ///	BASE_URL: &quot;http://int.abonnes.efl.fr&quot;
-        ///}
-        ///var engines = {
+        ///   Recherche une chaîne localisée semblable à var _provider = &quot;int.abonnes&quot;;
+        ///var availableEngines = {
         ///	google: {
         ///		field: [&quot;#lst-ib&quot;,&quot;#q&quot;],
         ///		results: &quot;#center_col&quot;,
@@ -168,12 +166,67 @@ namespace ELSConnectPOC {
         ///		tag: &quot;div&quot;
         ///	}
         ///}
-        ///var engine = null;
-        ///.
+        ///
+        ///var availableProvider = {
+        ///	&quot;elderecho&quot;: {
+        ///		parser: &quot;elderecho&quot;,
+        ///		connector: &quot;elderecho&quot;,
+        ///		urls: {
+        ///			result: &quot;http://online.elderecho.com/ipad/office/resultados.action?jsessionid=E19C03E846E443096C4BDE4 [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         public static string config {
             get {
                 return ResourceManager.GetString("config", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à window.connectors = window.connectors || {};
+        ///
+        ////**
+        /// * Connector for elderecho
+        /// * @return {Promise} Jquery Promise for Parser
+        /// */
+        ///window.connectors[&quot;elderecho&quot;] = function(url, credential, callback){
+        ///  return $.ajax({
+        ///    url: url,
+        ///    dataType: &quot;xml&quot;,
+        ///    success: function(data){
+        ///      try{
+        ///        credential.jsessionid = data.getElementsByTagName(&quot;IdSesion&quot;)[0].childNodes[0].nodeValue;
+        ///      }
+        ///      catch(e){
+        ///
+        ///      }
+        ///
+        ///    }
+        ///  });
+        ///}
+        ///.
+        /// </summary>
+        public static string connector_elderecho {
+            get {
+                return ResourceManager.GetString("connector_elderecho", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à window.connectors = window.connectors || {};
+        ////**
+        /// * Connector for elderecho
+        /// * @return {Promise} Jquery Promise for Parser
+        /// */
+        ///window.connectors[&quot;intabonnes&quot;] = function(){
+        ///  return {
+        ///    success: function(){},
+        ///    fail: function(){}
+        ///  }
+        ///}
+        ///.
+        /// </summary>
+        public static string connector_intabonnes {
+            get {
+                return ResourceManager.GetString("connector_intabonnes", resourceCulture);
             }
         }
         
@@ -341,8 +394,11 @@ namespace ELSConnectPOC {
         ///		baseUrl: getUrl(&quot;&quot;),
         ///		compress: 1,//0 = fermé, 1=semi ouvert, 2=ouvert + desc
         ///		sortBy: &quot;revelance&quot;,
-        ///		ident: null,
-        ///		password: null,
+        ///		connected: false,
+        ///		credential: {
+        ///
+        ///		},
+        ///		//TO REMOVE
         ///		error: {
         ///			logged: false,
         ///			https: false,
@@ -356,9 +412,7 @@ namespace ELSConnectPOC {
         ///	}
         ///});
         ///var Result = Backbone.Model.extend({
-        ///	defaults: {
-        ///		title: &quot;&quot;,
-        ///		brief: [le reste de la chaîne a été tronqué]&quot;;.
+        ///	defaults: [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         public static string models {
             get {
@@ -389,6 +443,48 @@ namespace ELSConnectPOC {
         public static string page {
             get {
                 return ResourceManager.GetString("page", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à window.parsers = window.parsers || {};
+        ////**
+        /// * Parse data received for services
+        /// * @param  {Text} data HTML/JSON
+        /// * @return {Array}      List of parsed elements
+        /// */
+        ///window.parsers[&quot;elderecho&quot;] = function(data, params){
+        ///  return {
+        ///    results: [],
+        ///    credential: {}
+        ///  }
+        ///}
+        ///.
+        /// </summary>
+        public static string parser_elderecho {
+            get {
+                return ResourceManager.GetString("parser_elderecho", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à window.parsers = window.parsers || {};
+        ////**
+        /// * Parse data received for services
+        /// * @param  {Text} data HTML/JSON
+        /// * @return {Array}      List of parsed elements
+        /// */
+        ///window.parsers[&quot;intabonnes&quot;] = function(data, params){
+        ///  var provider = getProvider();
+        ///  var noNewLine = data.replace(/\r?\n|\r/g, &apos;&apos;);
+        ///  var noDoctype = /&lt;body.*?&gt;(.*)&lt;\/body&gt;/.exec(noNewLine) || noNewLine;
+        ///  var body = document.createElement( &apos;div&apos; );
+        ///  body.innerHTML = typeof noDoctype == &quot;object&quot;? noDoctype[1] : noDoctype;
+        ///  var r [le reste de la chaîne a été tronqué]&quot;;.
+        /// </summary>
+        public static string parser_intabonnes {
+            get {
+                return ResourceManager.GetString("parser_intabonnes", resourceCulture);
             }
         }
         
@@ -567,11 +663,11 @@ namespace ELSConnectPOC {
         ///        &lt;img src=&quot;&lt;%= getImageUrl(&apos;icon-38&apos;) %&gt;&quot; alt=&quot;&quot;&gt;
         ///        &lt;%= title %&gt;
         ///      &lt;/div&gt;
-        ///      &lt;% if (!error.logged &amp;&amp; !error.https) { %&gt;
+        ///      &lt;% if (!error.logged) { %&gt;
         ///        &lt;div class=&quot;actions&quot;&gt;
         ///          &lt;div class=&quot;show&quot;&gt;
         ///            &lt;% if (compress == 1) { %&gt;
-        ///              &lt;div class=&quot;collapse-btn&quot; data-compress=&quot;0&quot;&gt;&lt;img src=&quot;&lt;%= getImageUrl(&apos;close&apos;) % [le reste de la chaîne a été tronqué]&quot;;.
+        ///              &lt;div class=&quot;collapse-btn&quot; data-compress=&quot;0&quot;&gt;&lt;img src=&quot;&lt;%= getImageUrl(&apos;close&apos;) %&gt;&quot; alt=&quot;&quot;&gt;&lt;/div&gt; [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         public static string widget {
             get {
@@ -599,8 +695,8 @@ namespace ELSConnectPOC {
         ///	widgetView.model.set(&quot;filterBy&quot;, null);
         ///	widgetView.getResults();
         ///}
-        ///
-        ///$(&quot;body&quot;).prepend($(&quot;&lt;div class=&apos;widget-templates&apos;/&gt;&quot;).load(getUrl(&quot;vie [le reste de la chaîne a été tronqué]&quot;;.
+        ///function waitForElement(elementPath, callBack){
+        ///  window.setTimeout(func [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         public static string widget_generator {
             get {

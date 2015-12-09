@@ -145,12 +145,16 @@
     <None Include="Resources\icon.ico" />
     <Content Include="scripts\collection.result.js" />
     <Content Include="scripts\config.js" />
+    <None Include="scripts\connector\elderecho.js" />
+    <None Include="scripts\connector\int.abonnes.js" />
     <Content Include="scripts\libs\backbone.js" />
     <Content Include="scripts\libs\iscroll.js" />
     <Content Include="scripts\libs\jquery.js" />
     <Content Include="scripts\libs\sha256.js" />
     <Content Include="scripts\libs\underscore.js" />
     <Content Include="scripts\models.js" />
+    <None Include="scripts\parser\elderecho.js" />
+    <None Include="scripts\parser\int.abonnes.js" />
     <Content Include="scripts\utils.js" />
     <Content Include="scripts\view.filter.js" />
     <Content Include="scripts\view.result.js" />

@@ -6,10 +6,7 @@
   "readme": "TBD",
   "version": "0.0.1",
   "dependencies": {
-    "cfx": "0.0.3",
-    "grunt-contrib-compress": "^0.14.0",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-json-generator": "^0.1.0"
+
   },
   "devDependencies": {
     "grunt": "~0.4.5",
@@ -35,7 +32,11 @@
     "jshint-stylish": "~2.0.1",
     "grunt-chrome-manifest": "~0.3.0",
     "grunt-contrib-compress": "~0.13.0",
-    "grunt-crx": "~1.0.3"
+    "grunt-crx": "~1.0.3",
+    "cfx": "0.0.3",
+    "grunt-contrib-compress": "^0.14.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-json-generator": "^0.1.0"
   },
   "engines": {
     "node": ">=0.8.0"
