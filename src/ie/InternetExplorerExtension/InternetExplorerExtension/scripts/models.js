@@ -1,12 +1,17 @@
 // Person Model
 var Widget = Backbone.Model.extend({
 	defaults: {
-		title: "Editions Lefebvre Sarrut",
+		title: "",
+		logo: "",
+		className: "",
 		baseUrl: getUrl(""),
 		compress: 1,//0 = fermé, 1=semi ouvert, 2=ouvert + desc
 		sortBy: "revelance",
 		connected: false,
-		credential: {},
+		credential: {
+			login: window.localStorage ? localStorage.getItem(_provider + "_login") : "",
+			password: window.localStorage ? localStorage.getItem(_provider + "_pass") : "",
+		},
 		error: {},
 		results: null,
 		filters: null,

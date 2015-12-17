@@ -93,8 +93,7 @@
   font-size: 11px;
   color: #333;
 }
-.widget-container #wrapper{
-  position: relative;
+.widget-container .wrapper-results{
   overflow: hidden;
   max-height: 260px;
   margin-top: 45px;
@@ -120,18 +119,20 @@
   line-height: 1.6em;
 }
 
-.widget-container .results .title a:link, .widget-container .results .title a:visited, .widget-container .results .title a:active{
+.widget-container .results .title a:link, .widget-container .results .title a:active{
 
   text-decoration: none;
-  color: #050505;
+  color: #1a0dab;
   font-size: 14px;
   letter-spacing: 0.010em;
   line-height: 1.6em;
 }
+ .widget-container .results .title a:visited
+{
+  color: #609;
+}
 .widget-container .results .title a:hover{
-
-  text-decoration: none !important;
-  color: #999;
+  text-decoration: underline !important;
 }
 .widget-container .results .description{
   color: #999;
@@ -215,13 +216,14 @@
   overflow-x: hidden;
 }
 
+
 .widget-container .filters-wrapper > ul{
   left:0;
   position: relative;
 }
 .widget-container .btn{
   width: 8%;
-  height: 33px;
+  height: 25px;
   margin-top: 2px;
   background: #3299BB;
   display: inline-block;
@@ -229,9 +231,9 @@
   vertical-align: top;
 
   text-align: center;
-  font-size: 22px;
+  font-size: 18px;
   color: #FFF;
-  line-height: 35px;
+  line-height: 25px;
   -webkit-box-shadow: 0px 2px 4px 0px rgb(220, 220, 220);
   box-shadow:  0px 2px 4px 0px rgb(220, 220, 220);
   border-radius: 2px;
@@ -243,14 +245,16 @@
   -webkit-box-shadow: 0px 1px 2px 0px rgb(200, 200, 200);
   box-shadow:  0px 1px 2px 0px rgb(200, 200, 200);
 }
-
+.widget-container .btn.disabled{
+  background: #CCC;
+}
 .widget-container .filters-container .filters .filter-name{
 
   border: 1px solid #3299BB;
   background: #3299BB;
   margin: 2px;
   margin-bottom: 0;
-  padding: 8px;
+  padding: 4px;
   color: #FFF;
   -webkit-box-shadow: 0px 2px 4px 0px rgb(220, 220, 220);
   box-shadow:  0px 2px 4px 0px rgb(220, 220, 220);

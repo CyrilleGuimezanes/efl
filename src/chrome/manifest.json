@@ -7,13 +7,14 @@
   "default_locale": "en",
   "content_scripts": [
     {
-      "matches": ["*://*.search.yahoo.com/*","*://www.google.fr/*","*://www.bing.com/*","*://www.google.com/*"],
+      "matches": ["*://*.search.yahoo.com/*","*://www.google.fr/*","*://www.bing.com/*","*://www.google.com/*","*://www.google.es/*"],
       "js": [
           "scripts/libs/underscore.js",
           "scripts/libs/jquery.js",
           "scripts/libs/sha256.js",
           "scripts/libs/iscroll.js",
           "scripts/libs/backbone.js",
+          "scripts/libs/promise.js",
           "scripts/connector/dalloz.js",
           "scripts/connector/elderecho.js",
           "scripts/connector/int.abonnes.js",
@@ -43,7 +44,8 @@
   "permissions": [
     "tabs",
     "activeTab",
-    "http://*/*"
+    "http://*/*",
+    "https://*/*"
   ],
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self' ",
   "web_accessible_resources": [

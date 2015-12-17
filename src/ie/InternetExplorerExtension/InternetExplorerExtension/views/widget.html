@@ -1,103 +1,99 @@
 <script id="widgetTemplate" type="text/template">
-<div class="widget-container">
-  <div class="top-bar">
-      <div class="title">
-        <span class="helper"></span>
-        <img src="<%= getImageUrl('icon-38') %>" alt="">
-        <%= title %>
-      </div>
-      <% if (!error.logged) { %>
-        <div class="actions">
-          <div class="show">
-            <% if (compress == 1) { %>
-              <div class="collapse-btn" data-compress="0"><img src="<%= getImageUrl('close') %>" alt=""></div>
-            <% } %>
-            <!--<% if (compress == 2) { %>
-              <span class="collapse-btn" data-compress="2">complet</span>
-            <% } %>-->
+<div class="widget-container <%= className %>">
+  <div class="widget">
+    <div class="top-bar">
+        <div class="title">
+          <span class="helper"></span>
+          <img src="<%= logo %>" alt="">
+          <%= title %>
+        </div>
+        <% if (!error.logged && !error.loggin_failed) { %>
+          <div class="actions">
+            <div class="show">
+              <% if (compress == 1) { %>
+                <div class="collapse-btn" data-compress="0"><img src="<%= getImageUrl('close') %>" alt=""></div>
+              <% } %>
+              <!--<% if (compress == 2) { %>
+                <span class="collapse-btn" data-compress="2">complet</span>
+              <% } %>-->
 
-            <% if (compress == 0) {  %>
-              <div class="collapse-btn" data-compress="1"><img src="<%= getImageUrl('open') %>" alt=""></div>
-            <% } %>
+              <% if (compress == 0) {  %>
+                <div class="collapse-btn" data-compress="1"><img src="<%= getImageUrl('open') %>" alt=""></div>
+              <% } %>
+
+            </div>
 
           </div>
+        <% } %>
+    </div>
+    <div class="content <% if (compress == 0 && !error.logged && !error.https) { %>collapsed<% } %>">
+      <div class="loader"><img src="<%= getImageUrl('loader', 'gif') %>" alt=""></div>
+      <% if (error.logged || error.loggin_failed) { %>
+        <% if (error.loggin_failed) { %><span class="error-label">Erreur lors de la connection, veuillez reessayer</span><% } %>
+        <div class="login-container  hidden-loading">
+          <div class="connect-label">Veuillez vous connecter au service pour voir les résultats</div>
+          <form class="login-form" method="GET" >
+            <div class="form-group">
+              <label for="ident">Identifiant</label><input type="text" id="ident" name="ident">
+            </div>
+            <div class="form-group">
+              <label for="password">Mot de passe</label><input type="password" name="password" id="password">
+            </div>
+            <div class="form-group submit">
+              <input type="button" name="name" value="Connexion" class="send-connect">
+            </div>
 
+          </form>
         </div>
+
       <% } %>
-  </div>
-  <div class="content <% if (compress == 0 && !error.logged && !error.https) { %>collapsed<% } %>">
-    <div class="loader"><img src="<%= getImageUrl('loader', 'gif') %>" alt=""></div>
-    <% if (error.logged || error.loggin_failed) { %>
-      <% if (error.loggin_failed) { %><span class="error-label">Erreur lors de la connection, veuillez reessayer</span><% } %>
-      <div class="login-container">
-        <div class="connect-label">Veuillez vous connecter au service pour voir les résultats</div>
-        <form class="login-form" method="GET" >
-          <div class="form-group">
-            <label for="ident">Identifiant</label><input type="text" id="ident" name="ident">
+      <% if (!error.logged && !error.loggin_failed && !error.no_result && !error.request_failed) { %>
+
+
+        <div class="toolbar hidden-loading">
+          <div class="result-label">
+
+            <% if (fullResultUrl.length) { %>
+              <a target="_blank" href="<%= fullResultUrl %>">Liste des résultats ELS</a>
+            <% } %>
+
           </div>
-          <div class="form-group">
-            <label for="password">Mot de passe</label><input type="password" name="password" id="password">
+          <div class="sort">
+            <span>Tri par </span>
+            <span class="sort-btn sort-date <% if (sortBy == 'date') { %>selected<% } %>">date</span>
+            |
+            <span class="sort-btn sort-revelance <% if (sortBy == 'revelance') { %>selected<% } %>">pertinence</span>
           </div>
-          <div class="form-group submit">
-            <input type="button" name="name" value="Connexion" class="send-connect">
-          </div>
-
-        </form>
-      </div>
-      <!--<span class="error-label">Vous devez vous connecter au service</span>-->
-
-    <% } %>
-    <% if (!error.logged && !error.no_result && !error.request_failed) { %>
-
-
-      <div class="toolbar">
-        <div class="result-label">
-
-          <% if (fullResultUrl.length) { %>
-            <a target="_blank" href="<%= fullResultUrl %>">Liste des résultats ELS</a>
-          <% } %>
 
         </div>
-        <div class="sort">
-          <span>Tri par </span>
-          <span class="sort-btn sort-date <% if (sortBy == 'date') { %>selected<% } %>">date</span>
-          |
-          <span class="sort-btn sort-revelance <% if (sortBy == 'revelance') { %>selected<% } %>">pertinence</span>
+        <div class="filters-parent  hidden-loading">
+          <div class="btn left-btn noselect disabled"> < </div>
+          <div class="filters-container">
+
+            <div class="filters-wrapper filters">
+
+            </div>
+
+
+          </div>
+          <div class="btn right-btn noselect"> > </div>
         </div>
 
-      </div>
-    <!--  <% if (filterBy) { %>
-      <div class="filter-reset">
-        < retour
-      </div>
-      <% } %>-->
-      <div class="filters-parent">
-        <div class="btn left-btn noselect"> < </div>
-        <div class="filters-container">
 
-          <div class="filters-wrapper filters">
+        <div class="wrapper-results">
+
+          <div class="results hidden-loading">
 
           </div>
 
-
         </div>
-        <div class="btn right-btn noselect"> > </div>
-      </div>
-
-
-      <div id="wrapper">
-
-        <div id="scroller" class="results">
-
-        </div>
-
-      </div>
-        <div class="more-results">
+        <div class="more-results hidden-loading">
           Plus de résultats >
         </div>
-    <% } %>
-    <% if (error.no_result) { %><span class="error-label">Aucun résultat n'a été trouvé</span><% } %>
-    <% if (error.request_failed) { %><span class="error-label">Une erreur est survenue, veuillez reessayer ultérieurement.</span><% } %>
+      <% } %>
+      <% if (error.no_result) { %><span class="error-label">Aucun résultat n'a été trouvé</span><% } %>
+      <% if (error.request_failed) { %><span class="error-label">Une erreur est survenue, veuillez reessayer ultérieurement.</span><% } %>
+    </div>
   </div>
 </div>
 </script>
@@ -108,7 +104,7 @@
 	<div class="result">
 		<div class="title"><a target="_blank" href="<%= item.url %>"><%= item.title %></a></div>
 
-      <!--<div class="description"><%= item.brief %></div>-->
+      <div class="description"><%= item.brief %></div>
 
 		<div class="metadata">
 			<% if (item.source.length || item.serie.length) { %>

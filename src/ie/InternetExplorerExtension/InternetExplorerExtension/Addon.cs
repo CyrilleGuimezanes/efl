@@ -63,7 +63,7 @@ namespace BHO_ELS
         }
         public void OnDocumentComplete(object pDisp, ref object URL)
         {
-
+            
             // @Eric Stob: Thanks for this hint!
             // This will prevent this method being executed more than once.
              if (pDisp != this.site)
@@ -71,12 +71,18 @@ namespace BHO_ELS
             var domain = URL.ToString();
             var document = browser.Document as IHTMLDocument2;
             var window = document.parentWindow;
-
-            window.execScript(@"console.log('ELS: Document completed domaine: "+ domain + "')");
-            if (domain.Contains("https://www.google") || domain.Contains("http://www.bing.com") || domain.Contains("http://search.yahoo"))
+            try
             {
+                window.execScript(@""+Res.console);
                 
-            
+            }
+            catch
+            {
+                MessageBox.Show("Enable to fix console object for IE < 9");
+            }
+            window.execScript(@"console.log('ELS: Document completed domaine: " + domain + "')");
+            if (domain.Contains("www.google") || domain.Contains("www.bing.com") || domain.Contains("search.yahoo"))
+            {
                 string finalScript = "";
                 string images = "{" +
                                    //"'logo': '" + ImageToBase64(Res.logo, ImageFormat.Bmp) + "'," +
@@ -86,15 +92,16 @@ namespace BHO_ELS
                                    "'close':'" + ImageToBase64(Res.close, ImageFormat.Bmp) + "'" +
                                 "}";
                 window.execScript(@"console.log('ELS: HTML include: " + domain + "')");
-                document.body.insertAdjacentHTML("afterBegin", Res.widget);
+                document.body.insertAdjacentHTML("beforeEnd", Res.widget);
 
+                window.execScript(@"alert('STEP "+ Res.widget + "')");
                 var js = "window.ELS = {};window.ELS.images = " + images;
                 window.execScript(@"" + js);
                 window.execScript(@"console.log('ELS: JS included: " + domain + "')");
                 IHTMLStyleSheet css = (IHTMLStyleSheet)document.createStyleSheet("", 0);
                 css.cssText = Res.app;
                 window.execScript(@"console.log('ELS: CSS include: " + domain + "')");
-
+                
                 foreach (string script in scripts)
                 {
                     finalScript += script + " ";
@@ -105,6 +112,7 @@ namespace BHO_ELS
                 }
                 catch (Exception)
                 {
+                    
                     window.execScript(@"console.log('ELS: Error on JS')");
                     MessageBox.Show("Une erreur, problablement Javascript, à été trouvée dans l'extension ELSConnect");
                 }
@@ -229,7 +237,6 @@ namespace BHO_ELS
             string[] todelete = new string[] { "8A194578-81EA-4850-9911-13BA2D71EFBD", "9A194578-81EA-4850-9911-13BA2D71EFBE", "B30C654D-7C51-4EB3-95B2-1E23905C2A3E", "D30C654D-7C51-4EB3-95B2-1E23905C2A3E" };
             for (int i = 0; i < todelete.Length; i++)
                 registryKey.DeleteSubKey(todelete[i], false);*/
-
 
             this.site = site;
 

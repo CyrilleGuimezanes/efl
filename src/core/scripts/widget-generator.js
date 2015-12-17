@@ -3,8 +3,7 @@ var widgetModel = new Widget({
 	results: resultsCollection,
 	filters: filtersCollection
 });
-var widgetView = new WidgetView({model: widgetModel});
-
+var widgetView = null;
 
 
 $(function() {
@@ -34,8 +33,10 @@ $("body").prepend($("<div class='widget-templates'/>").load(getUrl("views/widget
 				//debugger;
 				console.log("ELS: engine choosen: "+ !!engine);
 				
-				$(engine.results).prepend("<"+engine.tag+" class='connect-widget-inserter'/>")
-				$(".connect-widget-inserter").html(widgetView.render().el);
+				$(engine.results).prepend("<"+engine.tag+" class='connect-widget-inserter'><div></div></div>");
+				widgetView =  new WidgetView({model: widgetModel, el: $(".connect-widget-inserter > div")});
+				widgetView.render()
+				
 				renderWidget();
 				for (var i = 0; i < engine.field.length; i++)
 					$(engine.field[i]).change(renderWidget);

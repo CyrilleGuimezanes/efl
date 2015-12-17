@@ -1,19 +1,23 @@
 window.connectors = window.connectors || {};
 /**
  * Connector for elderecho
- * @return {Promise} Jquery Promise for Parser
+ * @return {Promise}  Promise for Parser
  */
 window.connectors["intabonnes"] = function(url, credential, callback){
-  return $.ajax({
+  var defer = new Promise();
+
+  $.ajax({
     url: url,
     dataType: "text",
     crossDomain: true,
     success: function(data){
-      alert("OK");
+      defer.resolve();
 
     },
     fail: function(){
-      console.log(arguments[2].getAllResponseHeaders())
+      defer.reject();
     }
   });
+
+  return defer;
 }

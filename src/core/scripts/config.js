@@ -1,4 +1,5 @@
-var _provider = "dalloz";
+var _provider = "intabonnes";
+var proxyUrl = "http://els.local.com?service="
 var availableEngines = {
 	google: {
 		field: ["#lst-ib","#q"],
@@ -18,17 +19,45 @@ var availableEngines = {
 }
 
 var availableProvider = {
-	"elderecho": {
+	"github": {
+		title: "Test GitHub",
+		logo: getImage("icon-38"),
+		className: "github",
 		parser: "elderecho",
 		connector: "elderecho",
 		urls: {
-			base: "",
-			result: "http://online.elderecho.com/ipad/office/resultados.action?jsessionid=E19C03E846E443096C4BDE47AB92C7DF.TC_ONLINE03&criteriosBusqueda.fulltext={{term}}&origen=office&seccion=buscador",
-			connect: "http://online.elderecho.com/ipad/ac/login.action?user=ac&pwd=ac2013",
-			filter: ""
+			base: "https://api.github.com/",
+			result: "https://api.github.com/repositories?since=364",
+			connect: "https://api.github.com/repositories?since=364",
+			filter: "https://api.github.com/repositories?since=364"
 		},
 		params: {
 			secured: true,
+			//noForm: true,
+			result:{
+				dataType: "text"
+			},
+			filter:{
+				dataType: "text"
+			}
+
+		}
+	},
+	"elderecho": {
+		title: "Editions ElDerecho",
+		logo: getImage("icon-38"),
+		className: "elderecho",
+		parser: "elderecho",
+		connector: "elderecho",
+		urls: {
+			base: "http://online.elderecho.com/",
+			result: "http://online.elderecho.com/ipad/office/resultados.action?jsessionid={{jsessionid}}&criteriosBusqueda.fulltext={{term}}&origen=office&seccion=buscador",
+			connect: "http://online.elderecho.com/ipad/office/login.action?user={{login}}&pwd={{password}}",
+			filter: "http://online.elderecho.com/ipad/office/resultadosOtroTipo.action?tokenConsulta=1&indices={{filter}}&profundidadAcotacion=&jsessionid={{jsessionid}}"
+		},
+		params: {
+			secured: true,
+			//noForm: true,
 			result:{
 				dataType: "text"
 			},
@@ -39,6 +68,9 @@ var availableProvider = {
 		}
 	},
 	"dalloz": {
+		title: "Editions Dalloz",
+		logo: getImage("icon-38"),
+		className: "dalloz",
 		parser: "dalloz",
 		connector: "dalloz",
 		urls: {
@@ -65,6 +97,9 @@ var availableProvider = {
 		}
 	},
 	"intabonnes": {
+		title: "Editions Lefebvre Sarrut",
+		logo: getImage("icon-38"),
+		className: "els",
 		parser: "intabonnes",
 		connector: "intabonnes",
 		urls: {
@@ -75,11 +110,13 @@ var availableProvider = {
 		},
 		params: {
 			secured: true,
-			dataType: "text",
 			encodeFunction: window.sha256
 		}
 	},
 	"abonnes": {
+		title: "Editions Lefebvre Sarrut",
+		logo: getImage("icon-38"),
+		className: "els",
 		parser: "abonnes",
 		connector: "abonnes",
 		urls: {
@@ -90,7 +127,6 @@ var availableProvider = {
 		},
 		params: {
 			secured: true,
-			dataType: "text",
 			encodeFunction: window.sha256
 		}
 	}

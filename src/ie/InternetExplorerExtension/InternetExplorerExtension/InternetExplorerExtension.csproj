@@ -147,6 +147,7 @@
     <Content Include="scripts\config.js" />
     <None Include="scripts\connector\elderecho.js" />
     <None Include="scripts\connector\int.abonnes.js" />
+    <Content Include="scripts\console.js" />
     <Content Include="scripts\libs\backbone.js" />
     <Content Include="scripts\libs\iscroll.js" />
     <Content Include="scripts\libs\jquery.js" />

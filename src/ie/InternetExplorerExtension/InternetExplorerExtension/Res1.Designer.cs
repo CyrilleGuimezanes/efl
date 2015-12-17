@@ -148,7 +148,8 @@ namespace ELSConnectPOC {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à var _provider = &quot;int.abonnes&quot;;
+        ///   Recherche une chaîne localisée semblable à var _provider = &quot;elderecho&quot;;
+        ///var proxyUrl = &quot;&quot;;//&quot;http://els.local.com?service=&quot;
         ///var availableEngines = {
         ///	google: {
         ///		field: [&quot;#lst-ib&quot;,&quot;#q&quot;],
@@ -168,11 +169,12 @@ namespace ELSConnectPOC {
         ///}
         ///
         ///var availableProvider = {
-        ///	&quot;elderecho&quot;: {
+        ///	&quot;github&quot;: {
         ///		parser: &quot;elderecho&quot;,
         ///		connector: &quot;elderecho&quot;,
         ///		urls: {
-        ///			result: &quot;http://online.elderecho.com/ipad/office/resultados.action?jsessionid=E19C03E846E443096C4BDE4 [le reste de la chaîne a été tronqué]&quot;;.
+        ///			base: &quot;https://api.github.com/&quot;,
+        ///			result: &quot;https:/ [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         public static string config {
             get {
@@ -192,13 +194,7 @@ namespace ELSConnectPOC {
         ///    url: url,
         ///    dataType: &quot;xml&quot;,
         ///    success: function(data){
-        ///      try{
         ///        credential.jsessionid = data.getElementsByTagName(&quot;IdSesion&quot;)[0].childNodes[0].nodeValue;
-        ///      }
-        ///      catch(e){
-        ///
-        ///      }
-        ///
         ///    }
         ///  });
         ///}
@@ -216,17 +212,45 @@ namespace ELSConnectPOC {
         /// * Connector for elderecho
         /// * @return {Promise} Jquery Promise for Parser
         /// */
-        ///window.connectors[&quot;intabonnes&quot;] = function(){
-        ///  return {
-        ///    success: function(){},
-        ///    fail: function(){}
-        ///  }
+        ///window.connectors[&quot;intabonnes&quot;] = function(url, credential, callback){
+        ///  return $.ajax({
+        ///    url: url,
+        ///    dataType: &quot;text&quot;,
+        ///    crossDomain: true,
+        ///    success: function(data){
+        ///      alert(&quot;OK&quot;);
+        ///
+        ///    },
+        ///    fail: function(){
+        ///      console.log(arguments[2].getAllResponseHeaders())
+        ///    }
+        ///  });
         ///}
         ///.
         /// </summary>
         public static string connector_intabonnes {
             get {
                 return ResourceManager.GetString("connector_intabonnes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à // Avoid `console` errors in browsers that lack a console.
+        ///(function () {
+        ///    var method;
+        ///    var noop = function () { };
+        ///    var methods = [
+        ///        &apos;assert&apos;, &apos;clear&apos;, &apos;count&apos;, &apos;debug&apos;, &apos;dir&apos;, &apos;dirxml&apos;, &apos;error&apos;,
+        ///        &apos;exception&apos;, &apos;group&apos;, &apos;groupCollapsed&apos;, &apos;groupEnd&apos;, &apos;info&apos;, &apos;log&apos;,
+        ///        &apos;markTimeline&apos;, &apos;profile&apos;, &apos;profileEnd&apos;, &apos;table&apos;, &apos;time&apos;, &apos;timeEnd&apos;,
+        ///        &apos;timeStamp&apos;, &apos;trace&apos;, &apos;warn&apos;
+        ///    ];
+        ///    var length = methods.length;
+        ///    var console = (window.console = window.console || {});        /// [le reste de la chaîne a été tronqué]&quot;;.
+        /// </summary>
+        public static string console {
+            get {
+                return ResourceManager.GetString("console", resourceCulture);
             }
         }
         
@@ -396,23 +420,14 @@ namespace ELSConnectPOC {
         ///		sortBy: &quot;revelance&quot;,
         ///		connected: false,
         ///		credential: {
-        ///
+        ///			login: window.localStorage ? localStorage.getItem(_provider + &quot;_login&quot;) : &quot;&quot;,
+        ///			password: window.localStorage ? localStorage.getItem(_provider + &quot;_pass&quot;) : &quot;&quot;,
         ///		},
-        ///		//TO REMOVE
-        ///		error: {
-        ///			logged: false,
-        ///			https: false,
-        ///			loginFailed: false
-        ///		},
+        ///		error: {},
         ///		results: null,
         ///		filters: null,
         ///		filterBy: null,
-        ///		fullResultUrl: &quot;&quot;,
-        ///		getImageUrl: getImage
-        ///	}
-        ///});
-        ///var Result = Backbone.Model.extend({
-        ///	defaults: [le reste de la chaîne a été tronqué]&quot;;.
+        ///		fullResultUrl: &quot;&quot; [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         public static string models {
             get {
@@ -453,13 +468,15 @@ namespace ELSConnectPOC {
         /// * @param  {Text} data HTML/JSON
         /// * @return {Array}      List of parsed elements
         /// */
-        ///window.parsers[&quot;elderecho&quot;] = function(data, params){
-        ///  return {
-        ///    results: [],
-        ///    credential: {}
-        ///  }
-        ///}
-        ///.
+        ///window.parsers[&quot;elderecho&quot;] = function(data, credential){
+        ///  var provider = getProvider();
+        ///  var noNewLine = data.replace(/\r?\n|\r/g, &apos;&apos;);
+        ///  var noDoctype = /&lt;body.*?&gt;(.*)&lt;\/body&gt;/.exec(noNewLine) || noNewLine;
+        ///  var body = document.createElement( &apos;div&apos; );
+        ///  body.innerHTML = typeof noDoctype == &quot;object&quot;? noDoctype[1] : noDoctype;
+        ///
+        ///
+        /// [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         public static string parser_elderecho {
             get {
@@ -628,13 +645,11 @@ namespace ELSConnectPOC {
         /// <summary>
         ///   Recherche une chaîne localisée semblable à // View for all people
         ///var WidgetView = Backbone.View.extend({
-        ///	tagName: &apos;div&apos;,
-        ///	className: &apos;main-widget&apos;,
         ///	loading: function(){
         ///
-        ///			$(&quot;.widget-container .content &gt; *&quot;).hide();
-        ///			$(&quot;.widget-container .filters-parent&quot;).hide();
-        ///			$(&quot;.widget-container .loader&quot;).show();
+        ///
+        ///		$(&quot;.widget-container .hidden-loading&quot;).hide();
+        ///		$(&quot;.widget-container .loader&quot;).show();
         ///
         ///
         ///	},
@@ -642,11 +657,14 @@ namespace ELSConnectPOC {
         ///		return _.template($(&apos;#widgetTemplate&apos;).html() )
         ///	},
         ///	initialize: function() {
+        ///
         ///	},
         ///	events: {
         ///		&quot;click .collapse-btn&quot;:     &quot;toggleOpen&quot;,
         ///		&quot;click .sort-date&quot;:        &quot;sortByDate&quot;,
-        ///		&quot;click .sor [le reste de la chaîne a été tronqué]&quot;;.
+        ///		&quot;click .sort-revelance&quot;:   &quot;sortByRevelance&quot;,
+        ///		&quot;click .send-connect&quot;:     &quot;connectUser&quot;,
+        ///		&quot;click .f [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         public static string view_widget {
             get {
@@ -657,17 +675,18 @@ namespace ELSConnectPOC {
         /// <summary>
         ///   Recherche une chaîne localisée semblable à &lt;script id=&quot;widgetTemplate&quot; type=&quot;text/template&quot;&gt;
         ///&lt;div class=&quot;widget-container&quot;&gt;
-        ///  &lt;div class=&quot;top-bar&quot;&gt;
-        ///      &lt;div class=&quot;title&quot;&gt;
-        ///        &lt;span class=&quot;helper&quot;&gt;&lt;/span&gt;
-        ///        &lt;img src=&quot;&lt;%= getImageUrl(&apos;icon-38&apos;) %&gt;&quot; alt=&quot;&quot;&gt;
-        ///        &lt;%= title %&gt;
-        ///      &lt;/div&gt;
-        ///      &lt;% if (!error.logged) { %&gt;
-        ///        &lt;div class=&quot;actions&quot;&gt;
-        ///          &lt;div class=&quot;show&quot;&gt;
-        ///            &lt;% if (compress == 1) { %&gt;
-        ///              &lt;div class=&quot;collapse-btn&quot; data-compress=&quot;0&quot;&gt;&lt;img src=&quot;&lt;%= getImageUrl(&apos;close&apos;) %&gt;&quot; alt=&quot;&quot;&gt;&lt;/div&gt; [le reste de la chaîne a été tronqué]&quot;;.
+        ///  &lt;div class=&quot;widget&quot;&gt;
+        ///    &lt;div class=&quot;top-bar&quot;&gt;
+        ///        &lt;div class=&quot;title&quot;&gt;
+        ///          &lt;span class=&quot;helper&quot;&gt;&lt;/span&gt;
+        ///          &lt;img src=&quot;&lt;%= getImageUrl(&apos;icon-38&apos;) %&gt;&quot; alt=&quot;&quot;&gt;
+        ///          &lt;%= title %&gt;
+        ///        &lt;/div&gt;
+        ///        &lt;% if (!error.logged &amp;&amp; !error.loggin_failed) { %&gt;
+        ///          &lt;div class=&quot;actions&quot;&gt;
+        ///            &lt;div class=&quot;show&quot;&gt;
+        ///              &lt;% if (compress == 1) { %&gt;
+        ///                &lt;div class=&quot;collapse-btn&quot;  [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         public static string widget {
             get {
@@ -681,8 +700,7 @@ namespace ELSConnectPOC {
         ///	results: resultsCollection,
         ///	filters: filtersCollection
         ///});
-        ///var widgetView = new WidgetView({model: widgetModel});
-        ///
+        ///var widgetView = null;
         ///
         ///
         ///$(function() {
@@ -696,7 +714,8 @@ namespace ELSConnectPOC {
         ///	widgetView.getResults();
         ///}
         ///function waitForElement(elementPath, callBack){
-        ///  window.setTimeout(func [le reste de la chaîne a été tronqué]&quot;;.
+        ///  window.setTimeout(function(){
+        ///    if($(elementPath).len [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         public static string widget_generator {
             get {
