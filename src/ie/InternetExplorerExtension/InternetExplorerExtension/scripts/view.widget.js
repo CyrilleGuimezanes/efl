@@ -96,7 +96,11 @@ var WidgetView = Backbone.View.extend({
 			}
 
 		}
-
+		if(!term.length){
+			this.setError("REQUEST_FAILLED");
+			this.render();
+			return;
+		}
 		var provider = getProvider();
 		var connector = getConnector();
 		var credential = this.model.get("credential");
@@ -153,7 +157,7 @@ var WidgetView = Backbone.View.extend({
 							params.data[i] = prepareUrl(params.data[i]);
 					params.data = JSON.stringify(params.data);
 				}
-				if(proxyUrl && proxyUrl.length)
+				if(provider.params.proxy && proxyUrl && proxyUrl.length)
 					params.url = proxyUrl + encodeURIComponent(params.url);
 
 				try{
@@ -210,7 +214,7 @@ var WidgetView = Backbone.View.extend({
 
 				//on passe par un proxy si besoin
 				var connectUrl = provider.urls.connect;
-				if(proxyUrl && proxyUrl.length)
+				if(provider.params.proxy && proxyUrl && proxyUrl.length)
 					connectUrl = proxyUrl + encodeURIComponent(prepareUrl(connectUrl));
 				else {
 					connectUrl = prepareUrl(connectUrl);

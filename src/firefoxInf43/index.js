@@ -55,6 +55,7 @@ var pageMod = PageMod({
                         data.url("scripts/libs/sha256.js"),
                         data.url("scripts/libs/iscroll.js"),
                         data.url("scripts/libs/backbone.js"),
+                        data.url("scripts/libs/promise.js"),
                         data.url("scripts/connector/elderecho.js"),
                         data.url("scripts/connector/int.abonnes.js"),
                         data.url("scripts/parser/elderecho.js"),

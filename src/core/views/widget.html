@@ -29,7 +29,7 @@
     <div class="content <% if (compress == 0 && !error.logged && !error.https) { %>collapsed<% } %>">
       <div class="loader"><img src="<%= getImageUrl('loader', 'gif') %>" alt=""></div>
       <% if (error.logged || error.loggin_failed) { %>
-        <% if (error.loggin_failed) { %><span class="error-label">Erreur lors de la connection, veuillez reessayer</span><% } %>
+        <% if (error.loggin_failed) { %><span class="error-label">Erreur lors de la connexion, veuillez reessayer</span><% } %>
         <div class="login-container  hidden-loading">
           <div class="connect-label">Veuillez vous connecter au service pour voir les résultats</div>
           <form class="login-form" method="GET" >

@@ -1,22 +1,33 @@
 window.parsers = window.parsers || {};
 /**
-* Parse data received for services
-* @param  {Text} data HTML/JSON
-* @return {Array}      List of parsed elements
+* Parse data received from service
+* @param  {Object} params request params
+* @param  {Object} credential current credential
+* @return {Promise}      Promise resolve when request is finished
 */
-window.parsers["dalloz"] = function(params, params){
+window.parsers["dalloz"] = function(params, credential){
   var defer = new Promise();
   $.ajax(params)
   .success(function(data){
-
+    //we get the current provider (defined on config.js)
     var provider = getProvider();
+    //we remove all new lines
     var noNewLine = data.replace(/\r?\n|\r/g, '');
+    //we remove doctype & body
     var noDoctype = /<body.*?>(.*)<\/body>/.exec(noNewLine) || noNewLine;
+    //we create a virtual div
     var body = document.createElement( 'div' );
+    //fill this div with data to optain a XML virtual representation
     body.innerHTML = typeof noDoctype == "object"? noDoctype[1] : noDoctype;
 
-
+    //get all filter by his selector
     var filters = body.querySelectorAll(".items > li") || [];
+
+    /**
+     * Create a filter list (and sub filter if call recursively)
+     * @param  {Array} list HTML elements
+     * @return {Array}      List of filter
+     */
     var createFilter = function(list){
       if (!list.length)
       return [];
@@ -39,9 +50,9 @@ window.parsers["dalloz"] = function(params, params){
       return ret;
     }
 
-
+    //we get all result by selector
     var results = body.querySelectorAll(".result");
-    if(!resuts.length){
+    if(!results.length){
         defer.resolve({
           results: [],
           credential: {},
@@ -53,14 +64,15 @@ window.parsers["dalloz"] = function(params, params){
     for (var i = 0; i < results.length; i++){
       var result = results[i];
 
+      /////////////////////////// HTML PARSING ///////////////////////////////////////////
+
+
       var titleNode = result.querySelector(".titre") || result.querySelector("#titre") || result.querySelector(".titre-ur");
       var descNode = result.querySelector("#context");
       var sourceNode = result.querySelector(".source");
       var dateNode = result.querySelector(".source-date");
       var idents = /javascript:connectPlugin\.openConnectTab\('(.*)','(.*)'\);/.exec(titleNode.firstChild.href);
-      /*var skey = result.querySelector(".openDocumentLink");
-      var key = skey && skey.attributes["key"]? skey.attributes["key"].value : "";
-      var id = skey && skey.attributes["id"]? skey.attributes["id"].value : "";*/
+
       var parsedDate = /([0-9]+)\s([a-zA-Z]+)\s([0-9]+)/.exec(dateNode? dateNode.innerHTML : "");
       var month = {
         janvier: 1,
@@ -87,9 +99,12 @@ window.parsers["dalloz"] = function(params, params){
         date:  parsedDate && parsedDate.length? new Date(parsedDate[3], month[parsedDate[2]], parsedDate[1]) : null,
         fdate: dateNode? dateNode.innerHTML : ""
       })
+
+      /////////////////////////// END HTML PARSING ///////////////////////////////////////////
       ret.push(item);
 
     }
+    //resolve Promise
     defer.resolve({
       results: ret,
       credential: {},

@@ -19,6 +19,7 @@
           "scripts/libs/sha256.js",
           "scripts/libs/iscroll.js",
           "scripts/libs/backbone.js",
+          "scripts/libs/promise.js",
           "scripts/connector/elderecho.js",
           "scripts/connector/int.abonnes.js",
           "scripts/parser/elderecho.js",

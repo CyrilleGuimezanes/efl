@@ -1,8 +1,9 @@
 window.parsers = window.parsers || {};
 /**
-* Parse data received for services
-* @param  {Text} data HTML/JSON
-* @return {Array}      List of parsed elements
+* Parse data received from service
+* @param  {Object} params request params
+* @param  {Object} credential current credential
+* @return {Promise}      Promise resolve when request is finished
 */
 window.parsers["intabonnes"] = function(params, credential){
   var defer = new Promise();

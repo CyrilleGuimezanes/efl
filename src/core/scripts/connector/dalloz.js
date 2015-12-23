@@ -4,7 +4,7 @@ window.connectors = window.connectors || {};
  * Connector for elderecho
  * @return {Promise} Promise for Parser
  */
-window.connectors["elderecho"] = function(url, credential, callback){
+window.connectors["elderecho"] = function(url, credential){
   var defer = new Promise();
 
   $.ajax({

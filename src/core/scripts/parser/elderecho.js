@@ -1,8 +1,9 @@
 window.parsers = window.parsers || {};
 /**
-* Parse data received for services
-* @param  {Text} data HTML/JSON
-* @return {Array}      List of parsed elements
+* Parse data received from service
+* @param  {Object} params request params
+* @param  {Object} credential current credential
+* @return {Promise}      Promise resolve when request is finished
 */
 window.parsers["elderecho"] = function(params, credential){
   var defer = new Promise();
@@ -41,7 +42,7 @@ window.parsers["elderecho"] = function(params, credential){
 
     var results = body.querySelectorAll(".resultado");
 
-    if(!resuts.length){
+    if(!results.length){
         defer.resolve({
           results: [],
           credential: {},

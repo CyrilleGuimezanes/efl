@@ -1,5 +1,17 @@
-var _provider = "intabonnes";
+/**
+ * Selected provider
+ * @type {String}
+ */
+var _provider = "elderecho";
+/**
+ * Proxy URL
+ * @type {String}
+ */
 var proxyUrl = "http://els.local.com?service="
+/**
+ * List of available search engine
+ * @type {Object}
+ */
 var availableEngines = {
 	google: {
 		field: ["#lst-ib","#q"],
@@ -17,8 +29,12 @@ var availableEngines = {
 		tag: "div"
 	}
 }
-
+/**
+ * Providers config
+ * @type {Object}
+ */
 var availableProvider = {
+	//test provider (no mixed content, no authentification, JSON as result)
 	"github": {
 		title: "Test GitHub",
 		logo: getImage("icon-38"),
@@ -32,6 +48,7 @@ var availableProvider = {
 			filter: "https://api.github.com/repositories?since=364"
 		},
 		params: {
+
 			secured: true,
 			//noForm: true,
 			result:{
@@ -43,6 +60,7 @@ var availableProvider = {
 
 		}
 	},
+	//Results from ElDerecho
 	"elderecho": {
 		title: "Editions ElDerecho",
 		logo: getImage("icon-38"),
@@ -67,6 +85,7 @@ var availableProvider = {
 
 		}
 	},
+	//Results from Dalloz Editions
 	"dalloz": {
 		title: "Editions Dalloz",
 		logo: getImage("icon-38"),
@@ -80,6 +99,7 @@ var availableProvider = {
 			filter: "http://test.validation.dalloz-avocats.fr/documentation/ListeHandler.svc/GetResultListGlobal?zapette-refinement-action=add&zapette-refinement-value={{filter}}&ctxt=0_YSR0MT1zb2NpYWzCp3gkc2Y9cGFnZS1yZWNoZXJjaGU=&pwt=connect"
 		},
 		params: {
+			proxy: true,
 			secured: false,
 			result:{
 				dataType: "text"
@@ -96,6 +116,7 @@ var availableProvider = {
 			}
 		}
 	},
+	//Integration plaform of abonnes.efl.fr
 	"intabonnes": {
 		title: "Editions Lefebvre Sarrut",
 		logo: getImage("icon-38"),
@@ -113,6 +134,7 @@ var availableProvider = {
 			encodeFunction: window.sha256
 		}
 	},
+	//abonnes.efl.fr
 	"abonnes": {
 		title: "Editions Lefebvre Sarrut",
 		logo: getImage("icon-38"),
@@ -134,16 +156,32 @@ var availableProvider = {
 }
 
 //////////////////////////////////////////// INTERNAL /////////////////////////////
-
+/**
+ * Get current selected provider
+ * @return {Object} provider options
+ */
 var getProvider = function(){
 	return availableProvider[_provider];
 }
+/**
+ * Get selected connector function
+ * @return {Function} function to connect User
+ */
 var getConnector = function(){
 	return connectors[availableProvider[_provider].connector];
 }
+/**
+ * Get selected parser Function
+ * @return {Function} Function to parse results
+ */
 var getParser = function(){
 	return parsers[availableProvider[_provider].parser];
 }
+/**
+ * Function to extract domain form any URL.
+ * @param  {String} url URL to anaylyse
+ * @return {String}     Extracted domain
+ */
 function extractDomain(url) {
     var _domain;
     //find & remove protocol (http, ftp, etc.) and get domain
@@ -159,9 +197,25 @@ function extractDomain(url) {
 
     return _domain;
 }
+/**
+ * Current selected engine
+ * @type {String}
+ */
 var engine = null;
+/**
+ * Current domain
+ * @type {String}
+ */
 var domain = null;
+/**
+ * Current language (not used )
+ * @type {String}
+ */
 var lng = "fr";
+/**
+ * Extact domain and define selected search engine.
+ * @param  {String} url Page URL
+ */
 var defineEnv = function(url){
 	domain = extractDomain(url);
 	console.log("ELS: host"+ domain);
