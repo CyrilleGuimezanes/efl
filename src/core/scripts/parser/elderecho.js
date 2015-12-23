@@ -56,8 +56,13 @@ window.parsers["elderecho"] = function(params, credential){
       var result = results[i];
 
       var title = result.querySelector(".documento").innerHTML.split("-") || [];
-      var desc = title.pop();//on supprime et on retourne le dernier élément
-      var title = title.join("-");//on réattache les éléments restants
+      var desc = "";
+      if(title.length > 1){
+        desc = title.pop();
+      }
+      title = title.join("-");//on réattache les éléments restants
+       //on supprime et on retourne le dernier élément
+
 
       var sourceNode = result.querySelector(".termDestacado");
       var dateNode = null;
@@ -84,7 +89,9 @@ window.parsers["elderecho"] = function(params, credential){
       filters: createFilter(filters)
     });
 
-  }).fail(defer.reject)
+  }).fail(function(){
+    defer.reject();
+  })
 
   return defer;
 }

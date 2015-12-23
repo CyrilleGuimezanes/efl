@@ -128,7 +128,9 @@ window.parsers["intabonnes"] = function(params, credential){
         }
     });
 
-  }).fail(defer.reject)
+  }).fail(function(){
+    defer.reject();
+  })
 
   return defer;
 

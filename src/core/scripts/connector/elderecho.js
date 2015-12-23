@@ -14,7 +14,9 @@ window.connectors["elderecho"] = function(url, credential){
         credential.jsessionid = data.getElementsByTagName("IdSesion")[0].childNodes[0].nodeValue;
         defer.resolve();
     },
-    fail: defer.reject
+    fail: function(){
+      defer.reject();
+    }
   });
 
   return defer;

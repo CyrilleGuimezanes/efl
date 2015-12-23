@@ -180,7 +180,9 @@ var WidgetView = Backbone.View.extend({
 
 					},
 					function(e){//fail
-						throw e;
+						console.error(e);
+						_this.setError("REQUEST_FAILLED");
+						_this.render();
 					});
 				}
 				catch(e){

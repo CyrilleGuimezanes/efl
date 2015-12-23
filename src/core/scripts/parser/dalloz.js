@@ -111,7 +111,9 @@ window.parsers["dalloz"] = function(params, credential){
       filters: createFilter(filters)
     });
 
-  }).fail(defer.reject)
+  }).fail(function(){
+    defer.reject();
+  })
 
   return defer;
 }
